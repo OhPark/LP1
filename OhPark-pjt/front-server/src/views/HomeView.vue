@@ -1,18 +1,25 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    <MovieCard v-for="trend in trends" :key="trend.id" :movie="trend" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import MovieCard from '@/components/MovieCard'
 
 export default {
-  name: 'HomeView',
   components: {
-    HelloWorld
+    MovieCard
+  },
+  computed: {
+    trends() {
+      return this.$store.state.trends
+    }
   }
 }
+
 </script>
+
+<style>
+
+</style>
