@@ -11,7 +11,7 @@ class Trends(models.Model):
 class Movie:
     
     def __init__(self, response):
-        self.id = response.id
+        self.id = response.data.id
         self.title = response.title
         self.overview = response.overview
         self.poster_path = response.poster_path

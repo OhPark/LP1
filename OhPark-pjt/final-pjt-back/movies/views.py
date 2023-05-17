@@ -27,12 +27,13 @@ def movie_detail(request, movie_pk):
             "Authorization": "Bearer f1feebfe99ae40de68afb2c6303af665"
         }
         response = http_requests.get(url, headers=headers)
-        try:
-            movie = Movie(response.text)
-            serializer = MovieSerializer(movie)
-            return Response(serializer.data)
-        except:
+
+        if response.status_code != 200:
             return Response(status=status.HTTP_404_NOT_FOUND)
+            
+        movie = Movie(response.json())
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
 
 
 @api_view(['GET'])
