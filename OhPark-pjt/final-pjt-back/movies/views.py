@@ -1,4 +1,4 @@
-
+import requests as http_requests
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Authentication Decorators
@@ -13,14 +13,50 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Review, Trends
 from .serializers import MovieSerializer, ReviewSerializer
 
+api_key = 'f1feebfe99ae40de68afb2c6303af665'
+base_url = f'https://api.themoviedb.org/3/'
+
 
 @api_view(['GET'])
-def movie_detail(request, movie_pk):
+def movie_detail(request, movie_pk):        
     if request.method == 'GET':
-        movie = get_object_or_404(Movie, pk=movie_pk)
-        serializer = MovieSerializer(movie)
-        return Response(serializer.data)
-    
+        url = base_url + f'movie/{movie_pk}?language=ko'
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": "Bearer f1feebfe99ae40de68afb2c6303af665"
+        }
+        response = http_requests.get(url, headers=headers)
+        try:
+            movie = Movie(response.text)
+            serializer = MovieSerializer(movie)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def movie_search(request, movie_pk):        
+    start_date = request.start_date
+    end_date = request.end_date
+    keyword = request.keyword
+    if request.method == 'GET':
+        url = base_url + f"discover/movie?language=ko&page=1&primary_release_date.gte={start_date}%7B%7D&primary_release_date.lte={end_date}&sort_by=popularity.desc&with_keywords={keyword}"
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": "Bearer f1feebfe99ae40de68afb2c6303af665"
+        }
+
+        response = http_requests.get(url, headers=headers)
+
+        try:
+            movies = MovieSearch(response.text)
+            serializer = MovieSearchSerializer(movies)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 # @permission_classes([IsAuthenticated])
 @api_view(['POST'])
