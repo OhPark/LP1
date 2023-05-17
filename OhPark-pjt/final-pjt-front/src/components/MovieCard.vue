@@ -18,7 +18,7 @@ export default {
       return `https://image.tmdb.org/t/p/w${size}${path}`
     },
     goToDetail () {
-      this.$dispatch('getMovie', this.movie.id)
+      this.$store.dispatch('getMovie', this.movie.id)
       this.$router.push({name: 'movieDetail', params:{movie_id: this.movie.id}})
     }
   }
