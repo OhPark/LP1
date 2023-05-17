@@ -3,7 +3,6 @@
     <article class="card mx-auto" @click="goToDetail">
       <img :src="getImageUrl(movie.poster_path)" alt="poster">
       <h4 class="card-title">{{ movie.title }}</h4>
-      <p class="card-text">{{ movie.overview }}</p>
     </article>
   </div>
 </template>
