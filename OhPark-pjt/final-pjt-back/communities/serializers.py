@@ -3,6 +3,7 @@ from .models import Article, Comment
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+
     image = serializers.ImageField(use_url=True)
 
     class Meta:
@@ -12,5 +13,6 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
+
         model = Comment
         fields = ('content',)

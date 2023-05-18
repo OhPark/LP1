@@ -3,27 +3,54 @@ from django.conf import settings
 import requests
 
 
-class Trends(models.Model):
+class MovieCard(models.Model):
+
     title = models.CharField(max_length=100)
     poster_path = models.TextField()
-
-
-class Movie:
     
     def __init__(self, response):
-        self.id = response.data.id
-        self.title = response.title
-        self.overview = response.overview
-        self.poster_path = response.poster_path
-        self.release_date = response.release_date
-        self.genre = response.genre
-        self.vote_average = response.vote_average
-        self.runtime = response.runtime
+        self.id = response.get('id')
+        self.title = response.get('title')
+        self.poster_path = response.get('poster_path')
 
 
+class Genres(models.Model):
+    name = models.CharField(max_length=50)
+
+
+class Movie(models.Model):
+    
+    title = models.CharField(max_length=100)
+    overview = models.TextField()
+    poster_path = models.TextField()
+    release_date = models.TextField()
+    genres = models.JSONField(default=list)
+    vote_average = models.IntegerField()
+    runtime = models.IntegerField()
+
+    def __init__(self, response):
+        self.id = response.get('id')
+        self.title = response.get('title')
+        self.overview = response.get('overview')
+        self.poster_path = response.get('poster_path')
+        self.release_date = response.get('release_date')
+        self.genres = response.get('genres')
+        self.vote_average = response.get('vote_average')
+        self.runtime = response.get('runtime')
+
+
+# nested로 Movie (detail) 불러올 때 출력해야 함.
 class Review(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
+
+    # DB table에 우리의 객체들이 어떻게 저장되는지, 어떻게 유지되는지 확인 후 바꾸어야 함.
+    # on_delete 속성을 바꿔야 할 수 있음.
+    # foreignkey로서 사용을 못하게 될 수 있기에, 이곳에 우리가 request에서 받은 movie_id를 받는
+    # field로서 이용하고, movie detail 받아올 때 같이 찾는 식으로 해야할 수 있다.
+    # 이러면 client에 부담을 많이 주는데, 우리의 DB에 많은 양을 받을 수 없기에 불가피한 상황이다.
+    # 우리의 web이 기업단위로 개발되고, Server의 퀄리티가 올라가야 DB에 data를 양껏 담을 수 있고,
+    # 이 조건이 충족되어야 movie를 ForeingnKey로서 이용, 우리의 DB에 영화정보와 연결할 수 있다 판단된다.
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)# user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
