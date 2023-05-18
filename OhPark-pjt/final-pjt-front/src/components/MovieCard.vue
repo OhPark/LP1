@@ -18,6 +18,7 @@ export default {
     },
     goToDetail () {
       this.$store.dispatch('getMovie', this.movie.id)
+      this.$store.dispatch('getReviews', this.movie.id)
       this.$router.push({name: 'movieDetail', params:{movie_id: this.movie.id}})
     }
   }

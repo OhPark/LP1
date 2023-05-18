@@ -13,12 +13,16 @@ export default new Vuex.Store({
   state: {
     trends: null,
     movie: null,
-    search: null
+    search: null,
+    reviews: null
   },
   getters: {
     movie (state) {
       return state.movie
     },
+    reviews (state) {
+      return state.reveiws
+    }
   },
   mutations: {
     GET_TRENDS(state, payload) {
@@ -29,6 +33,10 @@ export default new Vuex.Store({
       state.movie = payload
       console.log('movie mutation 들어옴')
     },
+    GET_REVIEWS(state, payload) {
+      state.reviews = payload
+      console.log('review mutation')
+    }
   },
   actions: {
     getTrends(context) {
@@ -69,6 +77,28 @@ export default new Vuex.Store({
           console.error(error)
         })
     },
+    getReviews(context, movie_id) {
+      const options = {
+        method: 'GET',
+        url: `${BASE_URL}/movies/${movie_id}/reviews`
+      }
+
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response)
+          context.commit('GET_REVIEWS', response.data)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    createReview(context, movie_id) {
+      const options = {
+        method: 'POST',
+        url: `${BASE_URL}/movies/${movie_id}/reviews/create`
+      }
+    }
   },
   modules: {
   }
