@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import axios from 'axios'
 import createPersistedState from "vuex-persistedstate"
+import router from '../router'
 
 Vue.use(Vuex)
 const BASE_URL = 'http://127.0.0.1:8000/api/v1'
@@ -13,12 +15,16 @@ export default new Vuex.Store({
   state: {
     trends: null,
     movie: null,
-    search: null
+    search: null,
+    articles: [],
   },
   getters: {
     movie (state) {
       return state.movie
     },
+    isLogin(state) {
+      return state.token ? true : false
+    }
   },
   mutations: {
     GET_TRENDS(state, payload) {
@@ -29,6 +35,13 @@ export default new Vuex.Store({
       state.movie = payload
       console.log('movie mutation 들어옴')
     },
+    GET_ARTICLES(state, articles) {
+      state.articles = articles
+    },
+    SAVE_TOKEN(state, token) {
+      state.token = token
+      router.push({name: 'CommunityView'})
+    }
   },
   actions: {
     getTrends(context) {
@@ -69,6 +82,54 @@ export default new Vuex.Store({
           console.error(error)
         })
     },
+    getArticles(context) {
+      axios({
+        method: 'get',
+        url: `${BASE_URL}/api/v1/communities/`,
+      })
+      .then((res) => {
+        context.commit('GET_ARTICLES', res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    signUp(context, payload) {
+      const username = payload.username
+      const password = payload.password
+
+      axios({
+        method: 'post',
+        url: `${BASE_URL}/accounts/signup`,
+        data: {
+          username, password
+        }
+      })
+      .then((res) => {
+        context.commit('SAVE_TOKEN', res.data.key)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    login(context, payload) {
+      const username = payload.username
+      const password = payload.password
+
+      axios({
+        method: 'post',
+        url: `${BASE_URL}/accounts/login`,
+        data: {
+          username, password
+        }
+      })
+      .then((res) => {
+        context.commit('SAVE_TOKEN', res.data.key)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
   },
   modules: {
   }
