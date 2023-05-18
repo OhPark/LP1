@@ -15,6 +15,14 @@ class MovieCardSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ('title', 'score')
+
+
+class ReviewDetailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Review
+        exclude = ('movie', )

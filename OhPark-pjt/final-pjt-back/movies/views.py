@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, MovieCard, Review
-from .serializers import MovieSerializer, MovieCardSerializer,ReviewSerializer
+from .serializers import MovieSerializer, MovieCardSerializer, ReviewSerializer, ReviewDetailSerializer
 
 api_key = '6234433679f922dfecdc04d1126b17ad'
 base_url = 'https://api.themoviedb.org/3/'
@@ -81,19 +81,46 @@ def get_trends(request):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+def review_list(request, movie_pk):
+    if request.method == 'GET':
+        reviews = get_list_or_404(Review)
+        movie_reviews = []
+        for review in reviews:
+            if movie_pk == review.movie:
+                movie_reviews.append(review)
+        serializer = ReviewSerializer(movie_reviews, many=True)
+        return Response(serializer.data)
+
+
+# movie detail 아래에 review list에서 create 버튼 누르면 router로 review create 페이지 라우팅
+# 거기서 form tag submit.prevent 하고 submit 할시 이 view 호출하는 url로 요청 ㄱㄱ
 # @permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def create_review(request):
+def create_review(request, movie_pk):
     if request.method == 'POST':
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(movie=movie_pk)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET'])
-def review_detail(reqeust, review_pk):
-    if reqeust.method == 'GET':
-        # serializer = RevieDetailSerializer(data=request.data)
-        pass
+# @permission_classes([IsAuthenticated])
+@api_view(['GET', 'DELETE', 'PUT'])
+def review_detail(request, movie_pk, review_pk):
+    review = Review.object.get(pk=review_pk)
+    
+    if request.method == 'GET':
+        serializer = ReviewDetailSerializer(review)
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'PUT':
+        serializer = ReviewDetailSerializer(review, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(movie=movie_pk)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
