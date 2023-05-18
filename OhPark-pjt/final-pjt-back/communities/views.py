@@ -50,25 +50,35 @@ def article_detail(request, article_pk):
 @api_view(['POST'])
 def article_like(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
+    serializer = ArticleSerializer(article)
     user = request.user
     if article.like_users.filter(pk=user.pk).exists():
         article.like_users.remove(user)
-        serializer = ArticleSerializer(article)
         return Response(serializer.data)
     else:
         article.like_users.add(user)
-        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
+
+
+@api_view(['POST'])
+def article_dislike(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    serializer = ArticleSerializer(article)
+    user = request.user
+    if article.dislike_users.filter(pk=user.pk).exists():
+        article.dislike_users.remove(user)
+        return Response(serializer.data)
+    else:
+        article.dislike_users.add(user)
         return Response(serializer.data)
 
 
 @api_view(['POST'])
 def comment_create(request, article_pk):
-    user = request.user
     article = get_object_or_404(Article, pk=article_pk)
     serializer = CommentSerializer(data=request.data)
-
     if serializer.is_valid(raise_exception=True):
-        serializer.save(article=article, user=user)
+        serializer.save(article=article, user=request.user)
         comments = article.comments.all()
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
