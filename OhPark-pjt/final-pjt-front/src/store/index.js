@@ -4,13 +4,16 @@ import axios from 'axios'
 import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex)
+const BASE_URL = 'http://127.0.0.1:8000/api/v1'
+
 
 export default new Vuex.Store({
   plugins: [createPersistedState()],
 
   state: {
-    trends: [],
+    trends: null,
     movie: null,
+    search: null
   },
   getters: {
     movie (state) {
@@ -29,35 +32,31 @@ export default new Vuex.Store({
   },
   actions: {
     getTrends(context) {
-      const options = {
-        method: 'GET',
-        url: 'https://api.themoviedb.org/3/trending/movie/week',
-        params: {language: 'ko'},
-        headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMWZlZWJmZTk5YWU0MGRlNjhhZmIyYzYzMDNhZjY2NSIsInN1YiI6IjYzYzEwOWVkOGVmZTczMDA3ZDhmMjgzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fmZtOL8QkrT9vkl9HWLxwOYTNqmu1dqs5xf1R2yklmw'
+      console.log("actions 입니다.")
+      console.log(this.trends)
+      if (!this.trends) {
+        const options = {
+          method: 'GET',
+          url: `${BASE_URL}/movies/trends/`,
         }
+        
+        axios
+          .request(options)
+          .then(function (response) {
+            console.log('response 임', response)
+            context.commit('GET_TRENDS', response.data)
+          })
+          .catch(function (error) {
+            console.error(error)
+          })
+      } else {
+        return
       }
-      
-      axios
-        .request(options)
-        .then(function (response) {
-          console.log(response.data)
-          context.commit('GET_TRENDS', response.data.results)
-        })
-        .catch(function (error) {
-          console.error(error)
-        })
     },
     getMovie(context, movie_id) {
       const options = {
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movie_id}`,
-        params: {language: 'ko'},
-        headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMWZlZWJmZTk5YWU0MGRlNjhhZmIyYzYzMDNhZjY2NSIsInN1YiI6IjYzYzEwOWVkOGVmZTczMDA3ZDhmMjgzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fmZtOL8QkrT9vkl9HWLxwOYTNqmu1dqs5xf1R2yklmw'
-        }
+        url: `${BASE_URL}/movies/${movie_id}`,
       }
   
       axios

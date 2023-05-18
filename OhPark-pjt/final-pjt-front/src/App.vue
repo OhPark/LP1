@@ -35,6 +35,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$store.state.trends)
     this.getTrends()
   }
 }
