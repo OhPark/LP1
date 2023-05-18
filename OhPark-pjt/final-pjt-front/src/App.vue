@@ -14,10 +14,10 @@
               </li>
               <!-- <li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'random' }">Random</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" :to="{ name: 'watch' }">WatchList</router-link>
               </li> -->
+              <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'community' }">Community</router-link>
+              </li>
             </ul>
           </div>
         </div>
