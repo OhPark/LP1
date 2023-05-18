@@ -15,12 +15,19 @@
         {{ genre.name }}
         <!-- 나중에 css로 태그화시키자! -->
       </span>
-
+    </div>
+    <div id="reviews">
+      <ul>
+        <ReviewItem v-for="review in reviews" :key="review.id" :review="review" />
+      </ul>
+      <br>
+      <button @click="goReviewCreate">Create</button>
     </div>
   </div>
 </template>
 
 <script>
+import ReviewItem from '@/components/ReviewItem'
 
 export default {
   data () {
@@ -28,9 +35,16 @@ export default {
       movie_id: this.$route.params.movie_id,
     }
   },
+  components: {
+    ReviewItem,
+  }
+  ,
   computed: {
     movie () {
       return this.$store.getters.movie
+    },
+    reviews () {
+      return this.$store.getters.reveiws
     }
   },
   methods: {

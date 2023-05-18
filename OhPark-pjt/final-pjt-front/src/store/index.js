@@ -16,11 +16,18 @@ export default new Vuex.Store({
     trends: null,
     movie: null,
     search: null,
+
+    reviews: null
     articles: [],
+
   },
   getters: {
     movie (state) {
       return state.movie
+    },
+
+    reviews (state) {
+      return state.reveiws
     },
     isLogin(state) {
       return state.token ? true : false
@@ -34,6 +41,10 @@ export default new Vuex.Store({
     GET_MOVIE(state, payload) {
       state.movie = payload
       console.log('movie mutation 들어옴')
+    },
+    GET_REVIEWS(state, payload) {
+      state.reviews = payload
+      console.log('review mutation')
     },
     GET_ARTICLES(state, articles) {
       state.articles = articles
@@ -81,6 +92,28 @@ export default new Vuex.Store({
         .catch(function (error) {
           console.error(error)
         })
+    },
+    getReviews(context, movie_id) {
+      const options = {
+        method: 'GET',
+        url: `${BASE_URL}/movies/${movie_id}/reviews`
+      }
+
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response)
+          context.commit('GET_REVIEWS', response.data)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    createReview(context, movie_id) {
+      const options = {
+        method: 'POST',
+        url: `${BASE_URL}/movies/${movie_id}/reviews/create`
+      }
     },
     getArticles(context) {
       axios({

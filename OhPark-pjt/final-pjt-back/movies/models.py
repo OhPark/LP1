@@ -43,6 +43,7 @@ class Movie(models.Model):
 class Review(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
+    score = models.IntegerField()
 
     # DB table에 우리의 객체들이 어떻게 저장되는지, 어떻게 유지되는지 확인 후 바꾸어야 함.
     # on_delete 속성을 바꿔야 할 수 있음.
@@ -51,6 +52,9 @@ class Review(models.Model):
     # 이러면 client에 부담을 많이 주는데, 우리의 DB에 많은 양을 받을 수 없기에 불가피한 상황이다.
     # 우리의 web이 기업단위로 개발되고, Server의 퀄리티가 올라가야 DB에 data를 양껏 담을 수 있고,
     # 이 조건이 충족되어야 movie를 ForeingnKey로서 이용, 우리의 DB에 영화정보와 연결할 수 있다 판단된다.
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    # movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.IntegerField()
+
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)# user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
