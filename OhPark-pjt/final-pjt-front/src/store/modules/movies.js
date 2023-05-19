@@ -26,16 +26,16 @@ export default {
     },
     GET_MOVIE(state, payload) {
       state.movie = payload
-      console.log('movie mutation 들어옴')
+      // console.log('movie mutation 들어옴')
     },
     GET_REVIEWS(state, payload) {
       state.reviews = payload
-      console.log('review mutation')
+      // console.log('review mutation')
     },
 	},
 	actions: {
     getTrends(context) {
-      console.log("actions 입니다.")
+      // console.log("actions 입니다.")
       console.log(this.trends)
       if (!this.trends) {
         const options = {
@@ -46,7 +46,7 @@ export default {
         axios
           .request(options)
           .then(function (response) {
-            console.log('response 임', response)
+            // console.log('response 임', response)
             context.commit('GET_TRENDS', response.data)
           })
           .catch(function (error) {

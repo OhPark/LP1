@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Community</h1>
-  <router-link :to="{ name: 'ArticleCreateView'}">[CREATE]</router-link>
+    <router-link :to="{ name: 'ArticleCreateView'}">[CREATE]</router-link>
     <ArticleList />
   </div>
 </template>
@@ -11,16 +11,13 @@ import ArticleList from '@/components/ArticleList'
 
 export default {
   name: 'CommunityView',
-  component: {
+  components: {
     ArticleList,
   },
   computed: {
     isLogin() {
       return this.$store.getters.isLogin
     }
-  },
-  created() {
-    this.getArticles()
   },
   methods: {
     getArticles() {
@@ -31,7 +28,11 @@ export default {
         this.$router.push({ name: 'LoginView' })
       }
     }
-  }
+  },
+  created() {
+    this.getArticles()
+
+  },
 }
 </script>
 

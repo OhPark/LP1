@@ -37,7 +37,7 @@ const routes = [
     component: ArticleCreateView,
   },
   {
-    path: '/articledetail',
+    path: '/community/:article_id',
     name: 'ArticleDetailView',
     component: ArticleDetailView,
   },
