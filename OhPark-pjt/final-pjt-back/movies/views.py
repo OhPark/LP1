@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import Movie, MovieCard, Review
+from .models import Movie, Review
 from .serializers import MovieSerializer, MovieCardSerializer, ReviewSerializer, ReviewDetailSerializer
 
 api_key = '6234433679f922dfecdc04d1126b17ad'

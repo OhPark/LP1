@@ -7,12 +7,12 @@ class Movie(models.Model):
     
     id = models.IntegerField(primary_key=True, unique=True)
     title = models.CharField(max_length=100)
-    overview = models.TextField()
-    poster_path = models.TextField()
-    release_date = models.TextField()
+    overview = models.TextField(null=True)
+    poster_path = models.TextField(null=True)
+    release_date = models.TextField(null=True)
     genres = models.JSONField(default=list)
-    vote_average = models.IntegerField()
-    runtime = models.IntegerField()
+    vote_average = models.IntegerField(null=True)
+    runtime = models.IntegerField(null=True)
     updated_at = models.DateField
 
     def __init__(self, response):
