@@ -95,5 +95,19 @@ def comment_delete(request, article_pk, comment_pk):
         return Response(serializer.data)
 
 
+# @api_view(['GET', 'POST'])
+# def comment_list(request, article_pk):
+#     if request.method == 'GET':
+#         comments = get_list_or_404(Comment)
+#         serializer = CommentSerializer(comments, many=True)
+#         return Response(serializer.data)
+#     elif request.method == 'POST':
+#         article = get_object_or_404(Article, pk=article_pk)
+#         serializer = CommentSerializer(data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             serializer.save(article=article)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 
 
