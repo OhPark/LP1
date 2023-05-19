@@ -13,7 +13,7 @@ class Movie(models.Model):
     genres = models.JSONField(default=list)
     vote_average = models.IntegerField(null=True)
     runtime = models.IntegerField(null=True)
-    updated_at = models.DateField
+    updated_at = models.DateField(auto_now=True)
 
     def __init__(self, response):
         self.id = response.get('id')
@@ -31,6 +31,8 @@ class Review(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     score = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     # DB table에 우리의 객체들이 어떻게 저장되는지, 어떻게 유지되는지 확인 후 바꾸어야 함.
     # on_delete 속성을 바꿔야 할 수 있음.
@@ -40,8 +42,10 @@ class Review(models.Model):
     # 우리의 web이 기업단위로 개발되고, Server의 퀄리티가 올라가야 DB에 data를 양껏 담을 수 있고,
     # 이 조건이 충족되어야 movie를 ForeingnKey로서 이용, 우리의 DB에 영화정보와 연결할 수 있다 판단된다.
 
-    # movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    movie = models.IntegerField()
+    # movie = models.IntegerField()
 
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)# user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # 다 취소. 실제 배포 및 서비스 하는 서버라 생각하고 개발
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
