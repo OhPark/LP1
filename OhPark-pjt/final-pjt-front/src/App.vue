@@ -16,7 +16,16 @@
                 <router-link class="nav-link" :to="{ name: 'random' }">Random</router-link>
               </li> -->
               <li class="nav-item">
-                <router-link class="nav-link" :to="{ name: 'community' }">Community</router-link>
+                <router-link class="nav-link" :to="{ name: 'CommunityView' }">Community</router-link>
+              </li>
+              <li class="nav-item" v-if="isLogin">
+                <button class="nav-link" @click="logOut">Logout</button>
+              </li>
+              <li class="nav-item" v-if="!isLogin">
+                <router-link class="nav-link" :to="{ name: 'LoginView' }">Login</router-link>
+              </li>
+              <li class="nav-item" v-if="!isLogin">
+                <router-link class="nav-link" :to="{ name: 'SignUpView' }">SignUp</router-link>
               </li>
             </ul>
           </div>
@@ -32,11 +41,20 @@ export default {
   methods: {
     getTrends () {
       this.$store.dispatch('getTrends')
+    },
+    logOut() {
+      this.$store.commit('LOG_OUT')
+      
     }
   },
   created() {
     console.log(this.$store.state.trends)
     this.getTrends()
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin
+    }
   }
 }
 </script>

@@ -5,6 +5,7 @@ const BASE_URL = 'http://127.0.0.1:8000/api/v1'
 
 export default {
 	state: {
+    token: null,
 	},
 	getters: {		
 		isLogin(state) {
@@ -15,18 +16,23 @@ export default {
     SAVE_TOKEN(state, token) {
       state.token = token
       router.push({name: 'CommunityView'})
+    },
+    LOG_OUT(state) {
+      state.token = null
+      router.push({name: 'CommunityView'})
     }
 	},
 	actions: {
     signUp(context, payload) {
       const username = payload.username
-      const password = payload.password
-
+      const password1 = payload.password1
+      const password2 = payload.password2
+      
       axios({
         method: 'post',
-        url: `${BASE_URL}/accounts/signup`,
+        url: `${BASE_URL}/accounts/signup/`,
         data: {
-          username, password
+          username, password1, password2
         }
       })
       .then((res) => {
@@ -42,7 +48,7 @@ export default {
 
       axios({
         method: 'post',
-        url: `${BASE_URL}/accounts/login`,
+        url: `${BASE_URL}/accounts/login/`,
         data: {
           username, password
         }
@@ -53,7 +59,6 @@ export default {
       .catch((err) => {
         console.log(err)
       })
-    }
-
+    },
 	}
 }

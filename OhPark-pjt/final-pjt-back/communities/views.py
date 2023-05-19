@@ -14,7 +14,7 @@ from .models import Article, Comment
 from .serializers import ArticleSerializer, CommentSerializer
 
 
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
@@ -23,9 +23,11 @@ def article_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        print(request)
+        print(request.data)
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data)
 
 
