@@ -3,23 +3,9 @@ from django.conf import settings
 import requests
 
 
-class MovieCard(models.Model):
-
-    title = models.CharField(max_length=100)
-    poster_path = models.TextField()
-    
-    def __init__(self, response):
-        self.id = response.get('id')
-        self.title = response.get('title')
-        self.poster_path = response.get('poster_path')
-
-
-class Genres(models.Model):
-    name = models.CharField(max_length=50)
-
-
 class Movie(models.Model):
     
+    id = models.IntegerField(primary_key=True, unique=True)
     title = models.CharField(max_length=100)
     overview = models.TextField()
     poster_path = models.TextField()
@@ -27,6 +13,7 @@ class Movie(models.Model):
     genres = models.JSONField(default=list)
     vote_average = models.IntegerField()
     runtime = models.IntegerField()
+    updated_at = models.DateField
 
     def __init__(self, response):
         self.id = response.get('id')

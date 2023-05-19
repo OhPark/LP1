@@ -17,7 +17,7 @@ export default new Vuex.Store({
     movie: null,
     search: null,
 
-    reviews: null
+    reviews: null,
     articles: [],
 
   },
