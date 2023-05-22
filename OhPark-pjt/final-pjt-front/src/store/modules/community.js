@@ -9,6 +9,8 @@ export default {
 	state: {
     articles: null,
 		article: null,
+		comments: null,
+		comment: null,
 	},
 	getters: {
 		article(state) {
@@ -16,6 +18,9 @@ export default {
 		},
 		articles(state) {
 			return state.articles
+		},
+		comments(state) {
+			return state.comments
 		}
 	},
 	mutations: {		
@@ -26,12 +31,15 @@ export default {
 			console.log(payload)
 			state.article = payload
 		},
+		GET_COMMENTS(state, comments) {
+			state.comments = comments
+		},
 		DELETE_ARTICLE(state) {
 			state.article = null
 		},
 		NO_CONTENT(state) {
 			state.articles = null
-		}
+		},
 	},
 	actions: {
     getArticles(context) {
@@ -100,6 +108,58 @@ export default {
 			})
 			.then(() => {
 				context.commit("DELETE_ARTICLE")
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+		updateArticle(context, article) {
+			axios({
+				method: 'put',
+				url: `${BASE_URL}/communities/${article.id}/`,
+				data: {
+					title: article.title,
+					content: article.content
+				},
+				headers: {Authorization: `Token ${context.getters.auth_token}`}
+			})
+			.then((res) => {
+				context.commit('GET_ARTICLE_DETAIL', res.data)
+				router.push({ name: 'ArticleDetailView', params: {article_id: article.id}})
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+		getComments(context, article_id) {
+			axios({
+				method: 'get',
+				url: `${BASE_URL}/communities/${article_id}/comments/`,
+				headers: {Authorization: `Token ${context.getters.auth_token}`}
+			})
+			.then((res) => {
+				context.commit('GET_COMMENTS', res.data)
+			})
+			.catch((err) => {
+				if (err.response.status == 404) {
+					context.commit('NO_CONTENT')
+				}
+				else {
+					console.log(err)
+				}
+			})
+		},
+		createComment(context, article) {
+			axios({
+				method: 'post',
+				url: `${BASE_URL}/communities/${article.id}/comments`,
+				data: {
+					content: article
+				},
+				headers: {Authorization: `Token ${context.getters.auth_token}`}
+			})
+			.then(() => {
+				router.push({name: 'ArticleDetailView'})
 			})
 			.catch((err) => {
 				console.log(err)

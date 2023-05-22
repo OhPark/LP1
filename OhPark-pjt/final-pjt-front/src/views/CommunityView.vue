@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Community</h1>
-    <router-link :to="{ name: 'ArticleCreateView'}">[CREATE]</router-link>
+    <router-link :to="{ name: 'ArticleCreateView'}">게시글 작성</router-link>
     <ArticleList />
   </div>
 </template>
