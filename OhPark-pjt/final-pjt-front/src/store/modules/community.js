@@ -25,6 +25,12 @@ export default {
 		GET_ARTICLE_DETAIL(state, payload) {
 			console.log(payload)
 			state.article = payload
+		},
+		DELETE_ARTICLE(state) {
+			state.article = null
+		},
+		NO_CONTENT(state) {
+			state.articles = null
 		}
 	},
 	actions: {
@@ -41,7 +47,14 @@ export default {
 					context.commit('GET_ARTICLES', res.data)
 				})
 				.catch((err) => {
-					console.error(err)
+					console.log(typeof(err.response.status))
+					if (err.response.status == 404) {
+						context.commit('NO_CONTENT')
+					}
+					else {
+						console.log(err)
+					}
+					
 				})
     },
     createArticle(context, payload) {
@@ -71,7 +84,7 @@ export default {
 		getArticleDetail(context, article_id) {
 			axios({
         method: 'get',
-        url: `${BASE_URL}/communities/${ article_id }/`
+        url: `${BASE_URL}/communities/${article_id}/`
       })
       .then((res) => {
         context.commit("GET_ARTICLE_DETAIL", res.data)
@@ -79,6 +92,18 @@ export default {
       .catch((err) => {
         console.log(err)
       })
+		},
+		deleteArticle(context, article_id) {
+			axios({
+				method: 'delete',
+				url: `${BASE_URL}/communities/${article_id}/`
+			})
+			.then(() => {
+				context.commit("DELETE_ARTICLE")
+			})
+			.catch((err) => {
+				console.log(err)
+			})
 		}
 	}
 }
