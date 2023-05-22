@@ -17,11 +17,12 @@
       </span>
     </div>
     <div id="reviews">
+      <h3>Review</h3>
       <ul>
-        <ReviewItem v-for="review in reviews" :key="review.id" :review="review" />
+        <ReviewItem v-for="review in movie?.review_set" :key="review.id" :review="review" />
       </ul>
       <br>
-      <button @click="goReviewCreate">Create</button>
+      <button @click="reviewCreate">Create</button>
     </div>
   </div>
 </template>
@@ -41,16 +42,20 @@ export default {
   ,
   computed: {
     movie () {
+      console.log(this.$store.getters.movie)
       return this.$store.getters.movie
     },
-    reviews () {
-      return this.$store.getters.reveiws
-    }
   },
   methods: {
     getImageUrl (path, size = 500) {
       return `https://image.tmdb.org/t/p/w${size}${path}`
     },
+    reviewCreate() {
+      this.$router.push({ name: 'reviewCreate', params: { movie_id: this.movie_id }})
+    }
+  },
+  created() {
+    return this.movie
   }
 }
 </script>
