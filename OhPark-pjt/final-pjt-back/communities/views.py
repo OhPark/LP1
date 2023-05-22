@@ -46,7 +46,7 @@ def article_detail(request, article_pk):
 
     elif request.method == 'DELETE':
         article.delete()
-        return Response(data={'delete':article_pk}, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
