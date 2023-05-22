@@ -1,9 +1,15 @@
 <template>
   <div class="article-list">
     <h3>Article List</h3>
-    <ArticleListItem 
-    v-for="article in articles" :key="article.id" :article="article"
-    />
+    <div v-if="articles">
+      <ArticleListItem 
+      v-for="article in articles" :key="article.id" :article="article"
+      />
+    </div>
+    <div v-else>
+      <h2>아무런 게시글이 존재하지 않습니다.</h2>
+    </div>
+
   </div>
 </template>
 

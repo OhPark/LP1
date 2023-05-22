@@ -3,10 +3,12 @@
     <h1>Detail</h1>
     <p>글 번호: {{ article?.id }}</p>
     <p>제목: {{ article?.title }}</p>
-    <p>{{ article?.image }}</p>
+    <!-- <p>{{ article?.image }}</p> -->
     <p>내용 : {{ article?.content }}</p>
     <p>작성시간: {{ article?.created_at }}</p>
     <p>수정시간: {{ article?.updated_at }}</p>
+    <button @click="deleteArticle">DELETE</button>
+    
   </div>
 </template>
 
@@ -24,7 +26,12 @@ export default {
       return this.$store.getters.article
     }
   },
-  method: {
+  methods: {
+    deleteArticle () {
+      this.$store.dispatch('deleteArticle', this.article.id)
+      this.$store.dispatch('getArticles')
+      this.$router.push({ name: 'CommunityView'})
+    }
   },
 }
 </script>
