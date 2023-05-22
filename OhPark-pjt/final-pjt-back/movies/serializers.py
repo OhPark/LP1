@@ -7,7 +7,7 @@ class MovieCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('title', 'poster_path', )
+        fields = ('id', 'title', 'poster_path', )
 
 
 class ReviewSerializer(serializers.ModelSerializer):

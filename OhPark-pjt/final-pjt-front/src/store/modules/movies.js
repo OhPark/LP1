@@ -15,9 +15,11 @@ export default {
 		movie (state) {
       return state.movie
     },
-
     review (state) {
       return state.review
+    },
+    trends(state) {
+      return state.trends
     },
 	},
 	mutations: {
@@ -43,7 +45,7 @@ export default {
 	},
 	actions: {
     getTrends(context) {
-      // console.log("actions 입니다.")
+      console.log("trends 안에 actions 입니다.")
       console.log(this.trends)
       if (!this.trends) {
         const options = {
@@ -54,15 +56,15 @@ export default {
         axios
           .request(options)
           .then(function (response) {
-            // console.log('response 임', response)
+            console.log('response 임', response)
             context.commit('GET_TRENDS', response.data)
           })
           .catch(function (error) {
             console.error(error)
           })
-      } else {
-        return
       }
+      console.log('axios 끝난 후입니다.')
+      console.log(this.trends)
     },
     getMovie(context, movie_id) {
       console.log('getMovie는 들어왔다')
@@ -116,16 +118,17 @@ export default {
     },
     deleteReview(context, review_id) {
       console.log('일단 delete는 들어왔다')
-      axios.request({
+      return axios.request({
         method: 'DELETE',
         url: `${BASE_URL}/movies/reviews/${review_id}`,
         headers: {Authorization: `Token ${context.getters.auth_token}`},
       })
-      .then(function() {
-        console.log('delete도 제대로 됐다.')
+      .then(function(response) {
+        console.log('delete도 제대로 됐다.', response)
         context.commit('DELETE_REVIEW')
+        return Promise.then()
       })
-      .error(function(error) {
+      .catch(function(error) {
         console.log('delete review error 들어왔습니다.')
         console.error(error)
       })

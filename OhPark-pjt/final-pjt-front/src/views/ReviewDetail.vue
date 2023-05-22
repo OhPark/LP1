@@ -34,8 +34,7 @@ export default {
 			const review_id = this.review.id
 			console.log(review_id)
 			this.$store.dispatch('deleteReview', review_id)
-			const movie_id = this.movie_id
-			this.returnToMovie(movie_id)
+				.then(() => this.returnToMovie(this.movie_id))
 		},
 		returnToMovie(movie_id) {
 			this.$store.dispatch('getMovie', movie_id)

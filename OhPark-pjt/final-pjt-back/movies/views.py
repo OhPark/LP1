@@ -11,6 +11,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Review
 from .serializers import MovieSerializer, MovieCardSerializer, ReviewSerializer, ReviewDetailSerializer
@@ -56,8 +57,7 @@ def movie_detail(request, movie_pk):
     if request.method == 'GET':
         movie = get_object_or_none_pk(Movie, movie_pk)
 
-        if movie == None or \
-            datetime.date.today() - movie.updated_at >= datetime.timedelta(days=1):
+        if movie == None:
             # url = base_url + f'movie/{movie_pk}?language=ko'
             # headers = {
             #     "accept": "application/json",
@@ -78,6 +78,20 @@ def movie_detail(request, movie_pk):
             serializer = MovieSerializer(data=movie)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
+
+        elif datetime.date.today() - movie.updated_at >= datetime.timedelta(days=1):
+            already_movie = Movie.objects.get(pk=movie_pk)
+
+            url = base_url + f'movie/{movie_pk}?api_key={api_key}&language=ko'
+            response = http_requests.get(url)
+            if response.status_code != 200:
+                print('not 200')
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            movie = response.json()
+            serializer = MovieSerializer(already_movie, data=movie)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+
         else:
             serializer = MovieSerializer(movie)
 
@@ -116,11 +130,10 @@ def get_trends(request):
         if response.status_code != 200:
             return Response(status=status.HTTP_404_NOT_FOUND)
         
+        # trends = response.json()
         trends = response.json().get('results')
-        trends_obj = []
-        for trend in trends:
-            trends_obj.append(Movie(trend))
-        serializer = MovieCardSerializer(trends_obj, many=True)
+        serializer = MovieCardSerializer(trends, many=True)
+        # if serializer.is_valid(raise_exception=True):
         return Response(serializer.data)
 
 

@@ -6,14 +6,14 @@
 			<br>
 
 			<label for="content">내용 : </label>
-			<input type="text" id="content" v-model="content">
+			<textarea type="text" id="content" v-model="content" />
 			<br>
 
 			<label for="dropdownMenuButton">점수 : </label>
 			<input type="number" id="dropdownMenuButton" v-model="score">
 			<!-- <button id="dropdownMenuButton" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 			<select class="dropdown-menu" aria-labelledby="dropdownMenuButton" v-model="score">
-				<option class="dropdown-item" vlaue="0">0</option>
+				<option class="dropdown-item" value="0">0</option>
 				<option class="dropdown-item" vlaue="1">1</option>
 				<option class="dropdown-item" vlaue="2">2</option>
 				<option class="dropdown-item" vlaue="3">3</option>
@@ -47,10 +47,12 @@ export default {
 			}
 			console.log('리뷰 만들기 컴포넌트')
 			console.log(payload)
-      this.$store.dispatch('createReview', payload)
-			this.$store.commit('NEW_MOVIE')
-			this.$store.dispatch('getMovie', payload.movie_id)
-    }
+			this.$store.dispatch('createReview', payload)
+				.then(() => {
+				// this.$store.commit('NEW_MOVIE')
+				this.$store.dispatch('getMovie', payload.movie_id)
+			})
+	}
 	},
 }
 </script>
