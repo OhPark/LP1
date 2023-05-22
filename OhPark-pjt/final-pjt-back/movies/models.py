@@ -11,19 +11,21 @@ class Movie(models.Model):
     poster_path = models.TextField(null=True)
     release_date = models.TextField(null=True)
     genres = models.JSONField(default=list)
-    vote_average = models.IntegerField(null=True)
+    vote_average = models.DecimalField(null=True, max_digits=6, decimal_places=3)
     runtime = models.IntegerField(null=True)
     updated_at = models.DateField(auto_now=True)
 
-    def __init__(self, response):
-        self.id = response.get('id')
-        self.title = response.get('title')
-        self.overview = response.get('overview')
-        self.poster_path = response.get('poster_path')
-        self.release_date = response.get('release_date')
-        self.genres = response.get('genres')
-        self.vote_average = response.get('vote_average')
-        self.runtime = response.get('runtime')
+    # def __init__(self, response):
+    #     self.id = response.get('id')
+    #     self.title = response.get('title')
+    #     self.overview = response.get('overview')
+    #     self.poster_path = response.get('poster_path')
+    #     self.release_date = response.get('release_date')
+    #     self.genres = response.get('genres')
+    #     self.vote_average = response.get('vote_average')
+    #     self.runtime = response.get('runtime')
+
+    #     return super().__init__(response)
 
 
 # nested로 Movie (detail) 불러올 때 출력해야 함.

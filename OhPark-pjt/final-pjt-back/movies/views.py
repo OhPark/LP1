@@ -15,14 +15,31 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import Movie, Review
 from .serializers import MovieSerializer, MovieCardSerializer, ReviewSerializer, ReviewDetailSerializer
 import datetime
+from django.db.models.fields.related import ManyToManyField
+from django.forms.models import model_to_dict
+
+
+def to_dict(instance):
+    opts = instance._meta
+    data = {}
+    for field in opts.concrete_fields + opts.many_to_many:
+        if isinstance(field, ManyToManyField):
+            if instance.pk is None:
+                data[field.name] = []
+            else:
+                data[field.name] = list(field.value_from_object(instance).values_list('pk', flat=True))
+        else:
+            data[field.name] = field.value_from_object(instance)
+    return data
+
 
 api_key = '6234433679f922dfecdc04d1126b17ad'
 base_url = 'https://api.themoviedb.org/3/'
 
 
-def get_object_or_none_pk(model, *args, **kwargs):
-    if model.objects.filter(id=args).exists():
-        return model.objects.get(id=args)
+def get_object_or_none_pk(model, movie_pk):
+    if model.objects.filter(id=movie_pk).exists():
+        return model.objects.get(id=movie_pk)
     else:
         return None
     
@@ -54,15 +71,15 @@ def movie_detail(request, movie_pk):
             if response.status_code != 200:
                 print('not 200')
                 return Response(status=status.HTTP_404_NOT_FOUND)
-            movie = Movie(response.json())
-            serializer = MovieSerializer(movie)
-            serializer.save()
+            movie = response.json()
+            movie['updated_at'] = datetime.date.today()
+            # movie = Movie(response.json())
+            # print(movie)
+            serializer = MovieSerializer(data=movie)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
         else:
             serializer = MovieSerializer(movie)
-
-        print(datetime.date.today())
-        print(movie.updated_at)
-        print(datetime.date.today() - movie.updated_at >= datetime.timedelta(days=1))
 
         return Response(serializer.data)
 
