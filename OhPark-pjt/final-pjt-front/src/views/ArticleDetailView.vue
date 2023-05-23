@@ -9,9 +9,21 @@
     <p>작성시간: {{ article?.created_at }}</p>
     <p>수정시간: {{ article?.updated_at }}</p>
     <hr>
-    <ArticleCommentList />
+    <div class="comment-list">
+    <h4>댓글 목록</h4>
+    <div v-if="article.comments" >
+      <ArticleCommentList :comments="article?.comments" />
+      <p v-for="comment in article.comments" :key="comment.id">
+        {{ comment?.content }}
+      </p>
+    </div>
+    <div v-else>
+      <h6>댓글이 없습니다</h6>
+    </div>
+
+  </div>
     <hr>
-    <CommentCreate />
+    <CommentCreate :article_id="article?.id" />
     <hr>
     <button @click="deleteArticle">게시글 삭제</button>
     <button @click="gotoUpdateArticle">게시글 수정</button>
@@ -45,6 +57,7 @@ export default {
       this.$router.push({ name: 'CommunityView'})
     },
     gotoUpdateArticle() {
+      console.log(this.article)
       this.$router.push({ name: 'ArticleUpdateView'})
     }
   },

@@ -73,21 +73,14 @@ def article_dislike(request, article_pk):
         return Response(serializer.data)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def comment_create(request, article_pk):
+    print('댓글작성중')
     article = get_object_or_404(Article, pk=article_pk)
     serializer = CommentSerializer(data=request.data)
-    
-    if request.method == 'GET':
-        comments = get_list_or_404(Comment)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(article=article, user=request.user)
-            comments = article.comments.all()
-            serializer = CommentSerializer(comments, many=True)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(article=article, user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['DELETE'])

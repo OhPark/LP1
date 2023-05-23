@@ -149,18 +149,18 @@ export default {
 				}
 			})
 		},
-		createComment(context, article) {
+		createComment(context, payload) {
 			axios({
 				method: 'post',
-				url: `${BASE_URL}/communities/${article.id}/comments`,
+				url: `${BASE_URL}/communities/${payload.article_id}/comments/`,
 				data: {
-					content: article
+					content: payload.content
 				},
 				headers: {Authorization: `Token ${context.getters.auth_token}`}
 			})
-			.then(() => {
-				router.push({name: 'ArticleDetailView'})
-			})
+			// .then(() => {
+			// 	router.push({name: 'ArticleDetailView', params: {article_id: payload.article_id}})
+			// })
 			.catch((err) => {
 				console.log(err)
 			})
