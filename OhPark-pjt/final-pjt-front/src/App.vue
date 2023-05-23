@@ -40,7 +40,7 @@
 export default {
   methods: {
     getTrends () {
-      this.$store.dispatch('getTrends')
+      this.$store.dispatch('getTrends', false)
     },
     logOut() {
       this.$store.commit('LOG_OUT')
@@ -48,7 +48,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.trends)
     this.getTrends()
   },
   computed: {

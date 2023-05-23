@@ -37,7 +37,9 @@ export default {
 		reviewUpdate() {
 			console.log(this.review)
 			this.$store.dispatch('updateReview', this.review)
-			this.$router.push({name: 'reviewDetail', params: { review_id : this.review.id }})
+				.then(() => {
+					this.$router.push({name: 'reviewDetail', params: { review_id : this.review.id }})
+				})
 		},
 	}
 }

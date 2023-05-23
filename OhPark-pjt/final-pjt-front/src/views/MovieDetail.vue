@@ -15,6 +15,12 @@
         {{ genre.name }}
         <!-- 나중에 css로 태그화시키자! -->
       </span>
+      <br>
+      <div class="video"></div>
+        <iframe v-if="movie.videos" id="player" type="text/html" width="640" height="360"
+        :src="getVideoUrl(movie.videos.results[0].key, movie.videos.results[0].site)"
+        frameborder="0" />
+        <p v-else> 영상이 없습니다. </p>
     </div>
     <div id="reviews">
       <h3>Review</h3>
@@ -49,6 +55,15 @@ export default {
   methods: {
     getImageUrl (path, size = 500) {
       return `https://image.tmdb.org/t/p/w${size}${path}`
+    },
+    getVideoUrl (video_key, video_type) {
+      console.log(video_type, video_key)
+      if (video_type === 'YouTube') {
+        return `https://www.youtube.com/embed/${video_key}`
+      }
+      else if (video_type === 'vimeo') {
+        return `https://www.vimeo.com/${video_key}`
+      }
     },
     reviewCreate() {
       this.$router.push({ name: 'reviewCreate', params: { movie_id: this.movie_id }})

@@ -50,8 +50,9 @@ export default {
 			this.$store.dispatch('createReview', payload)
 				.then(() => {
 				// this.$store.commit('NEW_MOVIE')
-				this.$store.dispatch('getMovie', payload.movie_id)
-			})
+					this.$store.dispatch('getMovie', payload.movie_id)
+				})
+			
 	}
 	},
 }
