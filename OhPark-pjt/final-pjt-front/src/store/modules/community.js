@@ -40,6 +40,12 @@ export default {
 		NO_CONTENT(state) {
 			state.articles = null
 		},
+		DELETE_COMMENT(state) {
+			state.comment = null
+		},
+		LIKE_ARTICLE(state) {
+			console.log(state)
+		}
 	},
 	actions: {
     getArticles(context) {
@@ -149,17 +155,44 @@ export default {
 				}
 			})
 		},
-		createComment(context, article) {
+		createComment(context, payload) {
 			axios({
 				method: 'post',
-				url: `${BASE_URL}/communities/${article.id}/comments`,
+				url: `${BASE_URL}/communities/${payload.article_id}/comments/`,
 				data: {
-					content: article
+					content: payload.content
 				},
 				headers: {Authorization: `Token ${context.getters.auth_token}`}
 			})
+			// .then(() => {
+			// 	router.push({name: 'ArticleDetailView', params: {article_id: payload.article_id}})
+			// })
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+		deleteComment(context, payload) {
+			axios({
+				method: 'delete',
+				url: `${BASE_URL}/communities/${payload.article_id}/comments/${payload.comment_id}/`,
+				headers: {Authorization: `Token ${context.getters.auth_token}`},
+			})
 			.then(() => {
-				router.push({name: 'ArticleDetailView'})
+				context.commit('DELETE_COMMENT')
+				// router.push({ name: 'ArticleDetailView', params: {article_id: payload.article_id}})
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
+		likeArticle(context, article_id) {
+			axios({
+				method: 'post',
+				url: `${BASE_URL}/communities/${article_id}/like/`,
+				headers: {Authorization: `Token ${context.getters.auth_token}`},
+			})
+			.then(() => {
+				context.commit('LIKE_ARTICLE')
 			})
 			.catch((err) => {
 				console.log(err)

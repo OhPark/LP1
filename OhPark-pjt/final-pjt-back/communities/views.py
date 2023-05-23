@@ -54,13 +54,15 @@ def article_like(request, article_pk):
     user = request.user
     if article.like_users.filter(pk=user.pk).exists():
         article.like_users.remove(user)
+        print('cancel')
         return Response(serializer.data)
     else:
         article.like_users.add(user)
+        print('like')
         return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['POST'])  # 안씀
 def article_dislike(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     serializer = ArticleSerializer(article)
@@ -73,32 +75,28 @@ def article_dislike(request, article_pk):
         return Response(serializer.data)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def comment_create(request, article_pk):
+    print('댓글작성중')
     article = get_object_or_404(Article, pk=article_pk)
     serializer = CommentSerializer(data=request.data)
-    
-    if request.method == 'GET':
-        comments = get_list_or_404(Comment)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(article=article, user=request.user)
-            comments = article.comments.all()
-            serializer = CommentSerializer(comments, many=True)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(article=article, user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['DELETE'])
 def comment_delete(request, article_pk, comment_pk):
     article = get_object_or_404(Article, pk=article_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
-    if request.user == comment.user:
-        comment.delete()
-        comments = article.comments.all()
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
+    print('view 들어옴')
+    print(request.user, comment.user)
+    # if request.user == comment.user:
+    comment.delete()
+    comments = article.comments.all()
+    serializer = CommentSerializer(comments, many=True)
+    print(serializer)
+    return Response(serializer.data)
 
 
 # @api_view(['GET', 'POST'])
