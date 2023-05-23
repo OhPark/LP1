@@ -14,7 +14,7 @@ from .models import Article, Comment
 from .serializers import ArticleSerializer, CommentSerializer
 
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
@@ -23,8 +23,6 @@ def article_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        print(request)
-        print(request.data)
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
@@ -75,15 +73,21 @@ def article_dislike(request, article_pk):
         return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def comment_create(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     serializer = CommentSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(article=article, user=request.user)
-        comments = article.comments.all()
+    
+    if request.method == 'GET':
+        comments = get_list_or_404(Comment)
         serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(article=article, user=request.user)
+            comments = article.comments.all()
+            serializer = CommentSerializer(comments, many=True)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['DELETE'])
