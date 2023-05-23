@@ -93,6 +93,11 @@ const routes = [
     name: 'ProfileView',
     component: ProfileView,
   },
+  {
+    path: '/Finish/:movie_id',
+    name: 'worldcupFinish',
+    component: () => import('@/views/Worldcup/WorldcupFinishView') 
+  }
 ]
 
 const router = new VueRouter({

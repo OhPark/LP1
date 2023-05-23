@@ -36,9 +36,8 @@ export default {
       const payload = {
         username, password1, password2
       }
-
+      this.$store.dispatch('getTrends', true)
       this.$store.dispatch('signUp', payload)
-      this.$router.push({ name: "LoginView" })
     }
   }
 }
