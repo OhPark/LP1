@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     trends() {
-      return this.$store.state.trends
+      return this.$store.getters.trends
     }
   }
 }

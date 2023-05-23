@@ -8,6 +8,9 @@ import ArticleDetailView from '../views/ArticleDetailView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ArticleUpdateView from '../views/ArticleUpdateView.vue'
+import ReviewCreate from '@/views/ReviewCreate.vue'
+import ReviewUpdate from '@/views/ReviewUpdate'
+
 
 Vue.use(VueRouter)
 
@@ -21,6 +24,21 @@ const routes = [
     path: '/movie/:movie_id',
     name: 'movieDetail',
     component: () => import('../views/MovieDetail.vue'),
+  },
+  {
+    path: '/movie/:movie_id/review_create',
+    name: 'reviewCreate',
+    component: ReviewCreate
+  },
+  {
+    path: '/movie/:movie_id/review/:review_id',
+    name: 'reviewDetail',
+    component: () => import('@/views/ReviewDetail')
+  },
+  {
+    path: '/movie/:movie_id/review/:review_id/review_update',
+    name: 'reviewUpdate',
+    component: ReviewUpdate
   },
   {
     path: '/404-not-found',

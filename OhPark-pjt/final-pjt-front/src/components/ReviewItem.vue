@@ -1,8 +1,9 @@
 <template>
-	<div>
+	<div class="review">
 		<li>
-			<span class="review_elem">{{ review.title }}</span>
-			<span class="review_elem">{{ review.score }}</span>
+			<a class="title" @click="goToReview">제목: {{ review?.title }}</a>
+			<span class="score">평점: {{ review?.score }}</span>
+			<span class="user">작성자: {{ review?.user_name }}</span>
 		</li>
 	</div>
 </template>
@@ -11,12 +12,22 @@
 export default {
 	props: {
 		review: Object,
-	}
+	},
+	methods: {
+		goToReview() {
+			console.log(this.review)
+			this.$store.dispatch('getReview', this.review.id)
+			this.$router.push({ name: 'reviewDetail', params: { review_id : this.review.id } })
+		}
+	},
 }
 </script>
 
 <style scoped>
-	.reveiw_elem {
-		margin: 5px;
+	.review * {
+		margin-inline: 10px;
+	}
+	.review .user {
+		float: right;
 	}
 </style>
