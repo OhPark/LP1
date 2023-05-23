@@ -87,6 +87,11 @@ const routes = [
     name: 'worldcupStart',
     component: WorldcupStart
   },
+  {
+    path: '/Finish/:movie_id',
+    name: 'worldcupFinish',
+    component: () => import('@/views/Worldcup/WorldcupFinishView') 
+  }
 ]
 
 const router = new VueRouter({

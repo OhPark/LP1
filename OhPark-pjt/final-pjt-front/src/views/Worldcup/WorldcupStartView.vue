@@ -1,10 +1,10 @@
 <template>
 	<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
 		<div class="card-1 col-3">
-			<MovieCard />
+			<MovieCard @click="select(movieLeft)" :movie="movieLeft" />
 		</div>
 		<div class="card-2 col-8">
-			<MovieCard />
+			<MovieCard @click="select(movieRight)" :movie="movieRight" />
 		</div>
 	</div>
 </template>
@@ -16,18 +16,63 @@ export default {
   components: {
     MovieCard
   },
-	// computed: {
-	// 	seleted() {
-	// 		this.$store.getters.seletedMovies
-	// 	},
-	// 	ready() {
-	// 		this.$store.getters.readyMovies
-	// 	}
-	// },
+	data() {
+		return {
+			movieLeft : null,
+			movieRight : null,
+			counter: 0,
+			order: null
+		}
+	},
+	computed: {
+		selected() {
+			this.$store.getters.seletedMovies
+		},
+		ready() {
+			this.$store.getters.readyMovies
+		},
+		readyCount() {
+			this.$sotre.getters.readyCount
+		}
+	},
 	methods: {
-		
-	}
 
+		select () {
+      console.log('버튼 클릭 했습니다.', this.movie_id);
+      this.$store.dispatch('selectMovie', this.movie_id);
+			this.counter += 1;
+			if (counter == this.$computed.readyCount / 2) {
+				this.finishRound();
+			}
+			this.changeCards(this.counter)
+    },
+
+		finishRound() {
+			if (this.counter === 1) {
+				this.$store.commit("FREE_WORLDCUP")
+				this.$router.replace({name: 'worldcupFinish', params: {movie_id: this.$computed.selected[0].id}});
+			} else {
+				this.$store.dispatch('startRound');
+			}
+			this.counter = 0;
+			this.pickOrder(this.$computed.readyCount)
+		},
+
+		pickOrder(number) {
+			randomArr = _.sampleSize(_.range(number), number)
+			console.log(randomArr)
+			this.order = randomArr
+		},
+
+		changeCards(index) {
+			this.movieLeft = this.$computed.readyMovies[this.order[index * 2]]
+			this.movieRight = this.$computed.readyMovies[this.order[index * 2 + 1]]
+		}
+	},
+	created() {
+		this.counter = 0;
+		this.finishRound()
+	}
 }
 </script>
 
