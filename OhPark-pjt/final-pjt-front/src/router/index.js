@@ -10,6 +10,8 @@ import SignUpView from '../views/SignUpView.vue'
 import ArticleUpdateView from '../views/ArticleUpdateView.vue'
 import ReviewCreate from '@/views/ReviewCreate.vue'
 import ReviewUpdate from '@/views/ReviewUpdate'
+import WorldcupHome from '@/views/Worldcup/WorldcupHomeView'
+import WorldcupStart from '@/views/Worldcup/WorldcupStartView'
 
 
 Vue.use(VueRouter)
@@ -74,6 +76,16 @@ const routes = [
     path: '/signup',
     name: 'SignUpView',
     component: SignUpView,
+  },
+  {
+    path: '/worldcupHome',
+    name: 'worldcupHome',
+    component: WorldcupHome
+  },
+  {
+    path: '/worldcupStart',
+    name: 'worldcupStart',
+    component: WorldcupStart
   },
 ]
 

@@ -42,12 +42,15 @@ export default {
     DELETE_REVIEW(state) {
       state.review = null
     },
+    FREE(state) {
+      state.trends = null
+    }
 	},
 	actions: {
-    getTrends(context) {
+    getTrends(context, can_bool) {
       console.log("trends 안에 actions 입니다.")
       console.log(this.trends)
-      if (!this.trends) {
+      if (this.trends === null || can_bool === true) {
         const options = {
           method: 'GET',
           url: `${BASE_URL}/movies/trends/`,
@@ -99,7 +102,7 @@ export default {
         },
         headers: {Authorization: `Token ${context.getters.auth_token}`}
       }
-      axios.request(options)
+      return axios.request(options)
         .then(function(response) {
           console.log(response.data)
         })
@@ -152,6 +155,6 @@ export default {
         .catch(function(error) {
           console.error(error)
         })
-    }
+    },
 	}
 }

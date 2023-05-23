@@ -13,6 +13,9 @@
 			<button @click="goToReviewUpdate">수정</button>
 			<button @click="reviewDelete">삭제</button>
 		</div>
+		<div class="return-movie">
+			<button @click="returnToMovie(movie_id)">영화로 돌아가기</button>
+		</div>
 	</div>
 </template>
 

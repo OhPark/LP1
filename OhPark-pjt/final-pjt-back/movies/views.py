@@ -56,7 +56,7 @@ def get_list_or_none(model, **kwargs):
 def movie_detail(request, movie_pk):        
     if request.method == 'GET':
         movie = get_object_or_none_pk(Movie, movie_pk)
-
+        url = base_url + f'movie/{movie_pk}?api_key={api_key}&language=ko&append_to_response=videos'
         if movie == None:
             # url = base_url + f'movie/{movie_pk}?language=ko'
             # headers = {
@@ -64,8 +64,6 @@ def movie_detail(request, movie_pk):
             #     "Authorization": f"Bearer {api_key}"
             # }
             # response = http_requests.get(url, headers=headers)
-
-            url = base_url + f'movie/{movie_pk}?api_key={api_key}&language=ko'
             response = http_requests.get(url)
 
             if response.status_code != 200:
@@ -81,8 +79,6 @@ def movie_detail(request, movie_pk):
 
         elif datetime.date.today() - movie.updated_at >= datetime.timedelta(days=1):
             already_movie = Movie.objects.get(pk=movie_pk)
-
-            url = base_url + f'movie/{movie_pk}?api_key={api_key}&language=ko'
             response = http_requests.get(url)
             if response.status_code != 200:
                 print('not 200')
@@ -111,14 +107,9 @@ def movie_search(request):
             return Response(status=status.HTTP_404_NOT_FOUND)
         
         movies = response.json().get('results')
-
-        movies_obj = []
-        for movie in movies:
-            movies_obj.append(Movie(movie))
-
-        serializer = MovieCardSerializer(movies_obj, many=True)
+        serializer = MovieCardSerializer(movies, many=True)
         return Response(serializer.data)
-
+    
 
 # 이녀석의 요청은 front의 localStorage에 따라 할지 말지 정한다.
 @api_view(['GET'])

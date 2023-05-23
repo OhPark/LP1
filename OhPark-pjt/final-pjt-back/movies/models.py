@@ -10,10 +10,11 @@ class Movie(models.Model):
     overview = models.TextField(null=True)
     poster_path = models.TextField(null=True)
     release_date = models.TextField(null=True)
-    genres = models.JSONField(default=list)
+    genres = models.JSONField(default=list, null=True)
     vote_average = models.DecimalField(null=True, max_digits=6, decimal_places=3)
     runtime = models.IntegerField(null=True)
     updated_at = models.DateField(auto_now=True)
+    videos = models.JSONField(default=list, null=True)
 
     # def __init__(self, response):
     #     self.id = response.get('id')
@@ -50,4 +51,3 @@ class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
