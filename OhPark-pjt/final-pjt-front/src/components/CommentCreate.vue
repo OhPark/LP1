@@ -27,7 +27,6 @@ export default {
         article_id: this.$props.article_id
       }
       console.log(payload)
-      console.log('then 들어오기 직전')
       this.$store.dispatch('createComment', payload)
         .then(() => {
           console.log('then 들어옴')

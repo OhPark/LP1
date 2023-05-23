@@ -6,6 +6,7 @@ const BASE_URL = 'http://127.0.0.1:8000/api/v1'
 export default {
 	state: {
     token: localStorage.getItem("token") || null,
+    username: localStorage.getItem("username") || null,
 	},
 	getters: {		
 		isLogin(state) {
@@ -16,14 +17,16 @@ export default {
 		}
 	},
 	mutations: {
-    SAVE_TOKEN(state, token) {
-      state.token = token
-			console.log(state.token)
+    SAVE_TOKEN(state, payload) {
+      state.token = payload.token
+      state.username = payload.username
+			console.log(state.token, state.username)
       router.push({name: 'CommunityView'})
     },
     LOG_OUT(state) {
+      router.push({name: 'home'})
       state.token = null
-      router.push({name: 'CommunityView'})
+      state.username = null
     }
 	},
 	actions: {
@@ -41,7 +44,11 @@ export default {
       })
       .then((res) => {
         console.log(res)
-				context.commit('SAVE_TOKEN', res.data.key)
+        const user_info = {
+          username: payload.username,
+          token: res.data.key,
+        }
+        context.commit('SAVE_TOKEN', user_info)
       })
       .catch((err) => {
         console.log(err)
@@ -59,8 +66,12 @@ export default {
         }
       })
       .then((res) => {
-				console.log(res.data.key)
-        context.commit('SAVE_TOKEN', res.data.key)
+				console.log(res)
+        const user_info = {
+          username: payload.username,
+          token: res.data.key,
+        }
+        context.commit('SAVE_TOKEN', user_info)
       })
       .catch((err) => {
         console.log(err)
