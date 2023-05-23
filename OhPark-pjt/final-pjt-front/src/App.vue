@@ -19,6 +19,12 @@
                 <router-link class="nav-link" :to="{ name: 'CommunityView' }">Community</router-link>
               </li>
               <li class="nav-item" v-if="isLogin">
+                <router-link class="nav-link" :to="{ name: 'ProfileView' }">Profile</router-link>
+              </li>
+              <li class="nav-item" v-if="isLogin">
+                <router-link class="nav-link" :to="{ name: 'worldcupHome'}">World Cup</router-link>
+              </li>
+              <li class="nav-item" v-if="isLogin">
                 <button class="nav-link" @click="logOut">Logout</button>
               </li>
               <li class="nav-item" v-if="!isLogin">

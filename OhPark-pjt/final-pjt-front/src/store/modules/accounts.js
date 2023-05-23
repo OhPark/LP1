@@ -14,7 +14,10 @@ export default {
 		},
 		auth_token(state) {
 			return state.token
-		}
+		},
+    profile(state) {
+      return state.profile
+    }
 	},
 	mutations: {
     SAVE_TOKEN(state, payload) {
@@ -27,7 +30,10 @@ export default {
       router.push({name: 'home'})
       state.token = null
       state.username = null
-    }
+    },
+    SET_PROFILE(state, profile) {
+      state.profile = profile
+    },
 	},
 	actions: {
     signUp(context, payload) {
@@ -77,5 +83,19 @@ export default {
         console.log(err)
       })
     },
+    setProfile(context, payload) {
+      const username = payload.username
+      axios({
+        method: 'get',
+        url: `${BASE_URL}/accounts/profile/${payload}/`,
+        data: username,
+      })
+      .then(() => {
+        context.commit('SET_PROFILE', username)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
 	}
 }

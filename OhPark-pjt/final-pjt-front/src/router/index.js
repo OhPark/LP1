@@ -12,6 +12,7 @@ import ReviewCreate from '@/views/ReviewCreate.vue'
 import ReviewUpdate from '@/views/ReviewUpdate'
 import WorldcupHome from '@/views/Worldcup/WorldcupHomeView'
 import WorldcupStart from '@/views/Worldcup/WorldcupStartView'
+import ProfileView from '@/views/ProfileView'
 
 
 Vue.use(VueRouter)
@@ -86,6 +87,11 @@ const routes = [
     path: '/worldcupStart',
     name: 'worldcupStart',
     component: WorldcupStart
+  },
+  {
+    path: '/profile',
+    name: 'ProfileView',
+    component: ProfileView,
   },
 ]
 
