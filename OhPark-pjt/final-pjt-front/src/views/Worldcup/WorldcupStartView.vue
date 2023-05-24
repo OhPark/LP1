@@ -11,6 +11,7 @@
 
 <script>
 import MovieCard from '@/components/MovieCard'
+import * as _ from 'lodash'
 
 export default {
   components: {
@@ -26,13 +27,13 @@ export default {
 	},
 	computed: {
 		selected() {
-			this.$store.getters.seletedMovies
+			return this.$store.getters.seletedMovies
 		},
 		ready() {
-			this.$store.getters.readyMovies
+			return this.$store.getters.readyMovies
 		},
 		readyCount() {
-			this.$sotre.getters.readyCount
+			return this.$sotre.getters.readyCount
 		}
 	},
 	methods: {
@@ -41,7 +42,7 @@ export default {
       console.log('버튼 클릭 했습니다.', this.movie_id);
       this.$store.dispatch('selectMovie', this.movie_id);
 			this.counter += 1;
-			if (counter == this.$computed.readyCount / 2) {
+			if (this.counter == this.$computed.readyCount / 2) {
 				this.finishRound();
 			}
 			this.changeCards(this.counter)
@@ -59,7 +60,7 @@ export default {
 		},
 
 		pickOrder(number) {
-			randomArr = _.sampleSize(_.range(number), number)
+			let randomArr = _.sampleSize(_.range(number), number)
 			console.log(randomArr)
 			this.order = randomArr
 		},
