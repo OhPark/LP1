@@ -100,9 +100,8 @@ export default {
         url: `${BASE_URL}/accounts/profile/${username}`,
       })
       .then((res) => {
-        console.log(res)
-        console.log(username)
-        username = res.data.username
+        console.log('profile: ', res.data)
+        context.commit('SET_PROFILE', res.data)
       })
       .catch((err) => {
         console.error(err)
