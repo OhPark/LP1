@@ -1,6 +1,7 @@
 <template>
   <div class="article-list">
     <h3>Article List</h3>
+    <hr>
     <div v-if="articles">
       <ArticleListItem 
       v-for="article in articles" :key="article.id" :article="article"
