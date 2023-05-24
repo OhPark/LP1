@@ -12,11 +12,6 @@ export default {
       username: null,
     }
   },
-  computed: {
-    profile() {
-      return this.$store.getters.profile
-    }
-  },
   methods: {
     setProfile() {
       const username = this.username
@@ -26,7 +21,7 @@ export default {
   },
   created() {
     const payload = { username: this.$route.params.username }
-    this.setProfile(payload)
+    this.setProfile('setProfile', payload)
   },
 }
 </script>

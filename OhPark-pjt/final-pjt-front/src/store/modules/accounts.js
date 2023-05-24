@@ -84,19 +84,15 @@ export default {
         console.log(err)
       })
     },
-    setProfile(context, payload) {
-      const username = payload
+    setProfile(context, username) {
       axios({
         method: 'get',
         url: `${BASE_URL}/accounts/profile/`,
-        data: {
-          username,
-        }
       })
       .then((res) => {
         console.log(res)
         console.log(username)
-        context.commit('SET_PROFILE', username)
+        username = res.data.username
       })
       .catch((err) => {
         console.log(err)
