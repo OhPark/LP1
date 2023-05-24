@@ -13,9 +13,9 @@
     <h4>댓글 목록</h4>
     <div v-if="article.comments" >
       <ArticleCommentList :comments="article?.comments" />
-      <p v-for="comment in article.comments" :key="comment.id">
+      <p v-for="comment in article?.comments" :key="comment.id">
         {{comment?.comment_username}}: {{ comment?.content }}
-        <button @click="deleteComment(comment.id)">댓글 삭제</button>
+        <button @click="deleteComment(comment?.id)">댓글 삭제</button>
       </p>
     </div>
     <div v-else>
@@ -79,6 +79,10 @@ export default {
       this.$store.dispatch('likeArticle', this.article.id)
     }
   },
+  created() {
+    console.log(this.$store.getters.article)
+    this.$computed.article()
+  }
 }
 </script>
 
