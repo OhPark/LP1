@@ -13,9 +13,13 @@ class ProfileSerializer(serializers.ModelSerializer):
         class Meta:
             model = Article
             fields = '__all__'
-        
+    
     like_articles = ArticleSerializer(many=True)
     articles = ArticleSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):

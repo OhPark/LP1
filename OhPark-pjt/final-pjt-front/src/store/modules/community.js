@@ -61,12 +61,12 @@ export default {
 					context.commit('GET_ARTICLES', res.data)
 				})
 				.catch((err) => {
-					console.log(typeof(err.response.status))
-					if (err.response.status == 404) {
+					// console.log(typeof(err.response.status))
+					if (err.status == 404) {
 						context.commit('NO_CONTENT')
 					}
 					else {
-						console.log(err)
+						console.error(err)
 					}
 					
 				})

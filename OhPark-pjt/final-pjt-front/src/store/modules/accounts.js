@@ -8,6 +8,7 @@ export default {
     token: localStorage.getItem("token") || null,
     username: localStorage.getItem("username") || null,
     profile: {},
+    route: null
 	},
 	getters: {		
 		isLogin(state) {
@@ -18,6 +19,9 @@ export default {
 		},
     profile(state) {
       return state.profile
+    },
+    username(state) {
+      return state.username
     }
 	},
 	mutations: {
@@ -25,28 +29,35 @@ export default {
       state.token = payload.token
       state.username = payload.username
 			console.log(state.token, state.username)
-      router.push({name: 'CommunityView'})
+      router.push({name: 'home'})
     },
     LOG_OUT(state) {
-      router.push({name: 'home'})
+      console.log(state.route.name)
+      if(state.route.name !== 'home') {
+        router.push({name: 'home'})
+      } else {
+        router.push({name: 'LoginView'})
+      }
       state.token = null
       state.username = null
     },
     SET_PROFILE(state, profile) {
       state.profile = profile
     },
+    SET_ROUTE(state, route) {
+      state.route = route;
+    },
 	},
 	actions: {
     signUp(context, payload) {
-      const username = payload.username
-      const password1 = payload.password1
-      const password2 = payload.password2
-      
+
       axios({
         method: 'post',
         url: `${BASE_URL}/accounts/signup/`,
         data: {
-          username, password1, password2
+          username: payload.username, 
+          password1: payload.password1, 
+          password2: payload.password2
         }
       })
       .then((res) => {
@@ -62,14 +73,13 @@ export default {
       })
     },
     login(context, payload) {
-      const username = payload.username
-      const password = payload.password
 
       axios({
         method: 'post',
         url: `${BASE_URL}/accounts/login/`,
         data: {
-          username, password
+          username: payload.username,
+          password: payload.password
         }
       })
       .then((res) => {
@@ -88,10 +98,7 @@ export default {
       const username = payload
       axios({
         method: 'get',
-        url: `${BASE_URL}/accounts/profile/`,
-        data: {
-          username,
-        }
+        url: `${BASE_URL}/accounts/profile/${username}`,
       })
       .then((res) => {
         console.log(res)
@@ -99,7 +106,7 @@ export default {
         context.commit('SET_PROFILE', username)
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
       })
     }
 	}
