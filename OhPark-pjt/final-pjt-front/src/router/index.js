@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store';
 import HomeView from '../views/HomeView.vue'
 import NotFound404 from '../views/NotFound404.vue'
 import CommunityView from '../views/CommunityView.vue'
@@ -89,7 +90,7 @@ const routes = [
     component: WorldcupStart
   },
   {
-    path: '/profile',
+    path: '/profile/:username',
     name: 'ProfileView',
     component: ProfileView,
   },
@@ -104,6 +105,12 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  store.commit('SET_ROUTE', to);
+  console.log("route to: ", to);
+  next();
 })
 
 export default router

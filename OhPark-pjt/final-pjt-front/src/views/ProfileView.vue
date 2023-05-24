@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ username }}</h1>
+    <h1>{{ profile.username }}</h1>
   </div>
 </template>
 
@@ -13,15 +13,14 @@ export default {
     }
   },
   methods: {
-    setProfile() {
-      const username = this.username
-      console.log(username)
+    setProfile(username) {
+      console.log("유저 이름", username)
       this.$store.dispatch('setProfile', username)
     },
   },
   created() {
-    const payload = { username: this.$route.params.username }
-    this.setProfile('setProfile', payload)
+    this.username = this.$route.params.username
+    this.setProfile(this.username)
   },
 }
 </script>
