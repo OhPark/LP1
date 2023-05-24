@@ -11,5 +11,6 @@ User = get_user_model
 @api_view(['GET'])
 def profile(request, username):
     user = get_object_or_404(User, username=username)
+    print(username)
     serializer = ProfileSerializer(user)
     return Response(serializer.data)

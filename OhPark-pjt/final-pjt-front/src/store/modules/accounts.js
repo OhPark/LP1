@@ -7,6 +7,7 @@ export default {
 	state: {
     token: localStorage.getItem("token") || null,
     username: localStorage.getItem("username") || null,
+    profile: {},
 	},
 	getters: {		
 		isLogin(state) {
@@ -84,13 +85,17 @@ export default {
       })
     },
     setProfile(context, payload) {
-      const username = payload.username
+      const username = payload
       axios({
         method: 'get',
-        url: `${BASE_URL}/accounts/profile/${payload}/`,
-        data: username,
+        url: `${BASE_URL}/accounts/profile/`,
+        data: {
+          username,
+        }
       })
-      .then(() => {
+      .then((res) => {
+        console.log(res)
+        console.log(username)
         context.commit('SET_PROFILE', username)
       })
       .catch((err) => {
