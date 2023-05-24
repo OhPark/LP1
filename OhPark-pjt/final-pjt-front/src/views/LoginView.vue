@@ -30,7 +30,7 @@ export default {
       const payload = {
         username, password
       }
-
+      this.$store.dispatch('getTrends', true)
       this.$store.dispatch('login', payload)
 
     }
