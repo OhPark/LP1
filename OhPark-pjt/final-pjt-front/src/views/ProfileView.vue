@@ -12,11 +12,6 @@ export default {
       username: null,
     }
   },
-  computed: {
-    profile() {
-      return this.$store.getters.profile
-    }
-  },
   methods: {
     setProfile(username) {
       console.log("유저 이름", username)
