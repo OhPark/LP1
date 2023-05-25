@@ -17,7 +17,7 @@
       </span>
       <br>
       <div class="video"></div>
-        <iframe v-if="movie.videos" id="player" type="text/html" width="640" height="360"
+        <iframe v-if="movie.videos.results[0]" id="player" type="text/html" width="640" height="360"
         :src="getVideoUrl(movie.videos.results[0].key, movie.videos.results[0].site)"
         frameborder="0" />
         <p v-else> 영상이 없습니다. </p>
@@ -70,7 +70,8 @@ export default {
     }
   },
   created() {
-    return this.movie
+    this.$store.commit('NEW_MOVIE')
+    this.$store.dispatch('getMovie', this.movie_id)
   }
 }
 </script>

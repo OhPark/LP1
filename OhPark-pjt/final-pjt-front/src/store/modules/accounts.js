@@ -5,10 +5,9 @@ const BASE_URL = 'http://127.0.0.1:8000/api/v1'
 
 export default {
 	state: {
-    token: localStorage.getItem("token") || null,
-    username: localStorage.getItem("username") || null,
-    profile: {},
-    route: null
+    token: null,
+    username: null,
+    profile: null,
 	},
 	getters: {		
 		isLogin(state) {
@@ -40,12 +39,11 @@ export default {
       }
       state.token = null
       state.username = null
+      state.profile = null
     },
     SET_PROFILE(state, profile) {
       state.profile = profile
-    },
-    SET_ROUTE(state, route) {
-      state.route = route;
+      // localStorage.setItem('profile', JSON.stringify(profile))
     },
 	},
 	actions: {
@@ -100,9 +98,7 @@ export default {
         url: `${BASE_URL}/accounts/profile/${username}`,
       })
       .then((res) => {
-        console.log('profile: ', res.data)
         context.commit('SET_PROFILE', res.data)
-
       })
       .catch((err) => {
         console.error(err)

@@ -22,14 +22,17 @@ export default {
       return `https://image.tmdb.org/t/p/w${size}${path}`
     },
     goToDetail () {
-      this.$store.commit('NEW_MOVIE')
       console.log('버튼 클릭 했습니다.', this.movie_id)
       this.$store.dispatch('getMovie', this.movie_id)
+      this.$router.push({name: 'movieDetail', params: {movie_id: this.movie_id}})
     }
   }
 }
 </script>
 
 <style scoped>
-
+  .card {
+    width: 300px;
+    margin: 50px;
+  }
 </style>

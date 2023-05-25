@@ -96,8 +96,11 @@ def movie_detail(request, movie_pk):
 
 
 @api_view(['GET'])
-def movie_search(request):        
-    query = parse.quote(request.query)
+def movie_search(request, query):        
+    print('search')
+    print(query)
+    query = parse.quote(query)
+    print(query)
     if request.method == 'GET':
         url = base_url + f"search/movie?query={query}&api_key={api_key}&include_adult=false&language=ko&page=1"
         response = http_requests.get(url)
@@ -108,6 +111,7 @@ def movie_search(request):
         
         movies = response.json().get('results')
         serializer = MovieCardSerializer(movies, many=True)
+        print
         return Response(serializer.data)
     
 

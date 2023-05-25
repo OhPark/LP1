@@ -15,7 +15,7 @@ export default {
     trends() {
       return this.$store.getters.trends
     }
-  }
+  },
 }
 
 </script>

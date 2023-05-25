@@ -90,8 +90,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.getters.article)
-    this.$computed.article()
+    this.$store.dispatch('getArticleDetail', this.article_id)
   }
 }
 </script>

@@ -14,6 +14,7 @@ import ReviewUpdate from '@/views/ReviewUpdate'
 import WorldcupHome from '@/views/Worldcup/WorldcupHomeView'
 import WorldcupStart from '@/views/Worldcup/WorldcupStartView'
 import ProfileView from '@/views/ProfileView'
+import SearchMovie from '@/views/SearchMovie'
 
 
 Vue.use(VueRouter)
@@ -98,6 +99,11 @@ const routes = [
     path: '/Finish/:movie_id',
     name: 'worldcupFinish',
     component: () => import('@/views/Worldcup/WorldcupFinishView') 
+  },
+  {
+    path: '/movies/:keyword',
+    name: 'movieSearch',
+    component: SearchMovie
   }
 ]
 

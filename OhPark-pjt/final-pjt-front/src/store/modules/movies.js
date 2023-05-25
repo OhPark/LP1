@@ -21,6 +21,9 @@ export default {
     trends(state) {
       return state.trends
     },
+    search(state) {
+      return state.search
+    }
 	},
 	mutations: {
     GET_TRENDS(state, payload) {
@@ -29,7 +32,7 @@ export default {
     },
     GET_MOVIE(state, payload) {
       state.movie = payload
-      // console.log('movie mutation 들어옴')
+      console.log('movie mutation 들어옴')
     },
     GET_REVIEW(state, payload) {
       state.review = payload
@@ -44,18 +47,20 @@ export default {
     },
     FREE(state) {
       state.trends = null
+    },
+    SEARCH_MOVIES(state, movies) {
+      state.search = movies
     }
 	},
 	actions: {
     getTrends(context, can_bool) {
       console.log("trends 안에 actions 입니다.")
       console.log(this.trends)
-      if (this.trends === null || can_bool === true) {
+      if (can_bool === true) {
         const options = {
           method: 'GET',
           url: `${BASE_URL}/movies/trends/`,
         }
-        
         axios
           .request(options)
           .then(function (response) {
@@ -78,16 +83,13 @@ export default {
         .then(function (response) {
           console.log('첫번째 getMovie')
           context.commit('GET_MOVIE', response.data)
-        })
-        .then(function(response) {
-          console.log('두번째 then')
-          console.log(response)
-          router.push({name: 'movieDetail', params: {movie_id: context.getters.movie.id}})
+          
         })
         .catch(function (error) {
           console.log('get movie error 들어왓습니다.')
           console.error(error)
         })
+        // router.push({name: 'movieDetail', params: {movie_id: movie_id}})
     },
     createReview(context, payload) {
       console.log('리뷰 액션s')
@@ -156,5 +158,22 @@ export default {
           console.error(error)
         })
     },
+    searchMovies(context, keyword) {
+      console.log('actions 들어옴?', keyword)
+      axios.request({
+        method: 'GET',
+        url: `${BASE_URL}/movies/search/${keyword}/`,
+      })
+      .then(function (response) {
+        console.log('첫번째 searchMovie')
+        console.log(response.data)
+        context.commit('SEARCH_MOVIES', response.data)
+        router.push({name: 'movieSearch', params: {keyword: keyword}})
+      })
+      .catch(function (error) {
+        console.log('search movie error 들어왓습니다.')
+        console.error(error)
+      })
+    }
 	}
 }

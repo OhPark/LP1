@@ -1,27 +1,28 @@
 <template>
 	<div>
-		<form @submit.prevent="createReview">
-			<label for="title">제목 : </label>
-			<input type="text" id="title" v-model.trim="title">
+		<form id="review-form" @submit.prevent="createReview">
+
+			<input type="text" id="title" v-model.trim="title" placeholder="제목">
 			<br>
 
-			<label for="content">내용 : </label>
-			<textarea type="text" id="content" v-model="content" />
+			<textarea type="text" id="content" v-model="content" placeholder="내용" />
 			<br>
 
-			<label for="dropdownMenuButton">점수 : </label>
-			<input type="number" id="dropdownMenuButton" v-model="score">
-			<!-- <button id="dropdownMenuButton" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-			<select class="dropdown-menu" aria-labelledby="dropdownMenuButton" v-model="score">
-				<option class="dropdown-item" value="0">0</option>
-				<option class="dropdown-item" vlaue="1">1</option>
-				<option class="dropdown-item" vlaue="2">2</option>
-				<option class="dropdown-item" vlaue="3">3</option>
-				<option class="dropdown-item" vlaue="4">4</option>
-				<option class="dropdown-item" vlaue="5">5</option>
-			</select> -->
+			<div id="form-container" class="container">
+					<div class="d-flex justify-content-center">
+							<select class="form-control" v-model="score">
+								<option value="0">0</option>
+								<option vlaue="1">1</option>
+								<option vlaue="2">2</option>
+								<option vlaue="3">3</option>
+								<option vlaue="4">4</option>
+								<option vlaue="5">5</option>
+							</select>
+					</div>
+			</div>
 
-			<input type="submit" value="Create">
+
+			<input id="submit" type="submit" value="생성하기">
 		</form>
 	</div>
 </template>
@@ -32,7 +33,7 @@ export default {
 		return {
 			title: null,
 			content: null,
-			score: null,
+			score: 0,
 
 			movie_id: this.$route.params.movie_id,
 		}
@@ -51,6 +52,7 @@ export default {
 				.then(() => {
 				// this.$store.commit('NEW_MOVIE')
 					this.$store.dispatch('getMovie', payload.movie_id)
+					this.$router.go(-1)
 				})
 			
 	}
@@ -58,6 +60,31 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#form-container {
+	width: 70px;
+}
+
+#submit {
+	margin: 10px;
+	width: 100px;
+}
+
+#review-form {
+	margin: 10px;
+}
+
+#content {
+	margin: 10px;
+	width: 200px;
+	height: 200px
+}
+
+
+#title {
+	margin: 10px;
+	width: 200px
+}
+
 
 </style>
