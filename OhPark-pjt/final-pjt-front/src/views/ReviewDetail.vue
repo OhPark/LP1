@@ -41,6 +41,7 @@ export default {
 		},
 		returnToMovie(movie_id) {
 			this.$store.dispatch('getMovie', movie_id)
+			this.$router.push(`/movie/${movie_id}`)
 		}
 	},
 }

@@ -143,7 +143,7 @@ export default {
       console.log(payload)
       axios.request({
         method: 'PUT',
-        url: `${BASE_URL}/movies/reviews/${payload.id}`,
+        url: `${BASE_URL}/movies/reviews/${payload.id}/`,
         headers: {Authorization: `Token ${context.getters.auth_token}`},
         data : {
           title: payload.title,

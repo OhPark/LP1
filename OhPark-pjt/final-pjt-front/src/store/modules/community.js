@@ -43,9 +43,9 @@ export default {
 		DELETE_COMMENT(state) {
 			state.comment = null
 		},
-		LIKE_ARTICLE(state) {
-			console.log(state)
-		}
+		// LIKE_ARTICLE(state) {
+		// 	console.log(state)
+		// }
 	},
 	actions: {
     getArticles(context) {
@@ -191,9 +191,9 @@ export default {
 				url: `${BASE_URL}/communities/${article_id}/like/`,
 				headers: {Authorization: `Token ${context.getters.auth_token}`},
 			})
-			.then(() => {
-				context.commit('LIKE_ARTICLE')
-			})
+			// .then(() => {
+			// 	context.commit('LIKE_ARTICLE')
+			// })
 			.catch((err) => {
 				console.log(err)
 			})

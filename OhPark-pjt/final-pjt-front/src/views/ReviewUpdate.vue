@@ -2,24 +2,15 @@
 	<div>
 		<form @submit.prevent="reviewUpdate">
 			<label for="title">제목 : </label>
-			<input type="text" id="title" v-model="review.title">
+			<input type="text" id="title" v-model.trim="review.title">
 			<br>
 
 			<label for="content">내용 : </label>
 			<input type="text" id="content" v-model="review.content">
 			<br>
 
-			<label for="dropdownMenuButton">점수 : </label>
-			<input type="number" id="dropdownMenuButton" v-model="review.score">
-			<!-- <button id="dropdownMenuButton" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-			<select class="dropdown-menu" aria-labelledby="dropdownMenuButton" v-model="score">
-				<option class="dropdown-item" vlaue="0">0</option>
-				<option class="dropdown-item" vlaue="1">1</option>
-				<option class="dropdown-item" vlaue="2">2</option>
-				<option class="dropdown-item" vlaue="3">3</option>
-				<option class="dropdown-item" vlaue="4">4</option>
-				<option class="dropdown-item" vlaue="5">5</option>
-			</select> -->
+			<label for="score">점수 : </label>
+			<input type="number" id="score" v-model="review.score">
 
 			<input type="submit" value="Update">
 		</form>

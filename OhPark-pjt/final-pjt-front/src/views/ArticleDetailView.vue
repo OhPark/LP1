@@ -9,7 +9,8 @@
     <p>
       <button class=" btn btn-outline-danger btn-sm" style="border: none;" @click="likeArticle">
        ♥ {{ like_count }}
-      </button> {{ article?.title }}</p>
+      </button> {{ article?.title }}
+    </p>
     <!-- <p>{{ article?.image }}</p> -->
     <hr>
     <p>{{ article?.content }}</p>
@@ -69,9 +70,14 @@ export default {
     article() {
       return this.$store.getters.article
     },
-    like_count() {
-      return this.article.user_count
-    },
+    like_count: {
+      get() {
+        return this.article.user_count
+      },
+      set(newValue) {
+        console.log(newValue)
+      }
+    }
   },
   methods: {
     deleteArticle () {
@@ -91,14 +97,18 @@ export default {
       console.log('deleteComment 들어옴',payload)
       this.$store.dispatch('deleteComment', payload)
     },
-    likeArticle() {
+    async likeArticle() {
       this.$store.dispatch('likeArticle', this.article.id)
+      await setTimeout(() => {this.$store.dispatch('getArticleDetail', this.article.id)}, 200)
+      console.log(this.article.user_count)
     }
   },
   created() {
-    this.$store.dispatch('getArticleDetail', this.article_id)
-  }
+    // console.log('params', this.$route.params.article_id)
+    this.$store.dispatch('getArticleDetail', this.$route.params.article_id)
+  },
 }
+
 </script>
 
 <style scoped>
