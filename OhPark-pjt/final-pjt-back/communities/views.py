@@ -14,7 +14,7 @@ from .models import Article, Comment
 from .serializers import ArticleSerializer, CommentSerializer
 
 
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
@@ -29,6 +29,7 @@ def article_list(request):
             return Response(serializer.data)
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)

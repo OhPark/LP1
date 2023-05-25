@@ -3,8 +3,8 @@
     <h5>댓글 작성</h5>
     <form @submit.prevent="createComment">
       <label for="content">내용: </label>
-      <input type="text" id="content" v-model="content"><br>
-      <input type="submit" id="submit">
+      <input type="text" id="content" v-model="content">
+      <input type="submit" id="submit" value="submit">
     </form>
   </div>
 </template>

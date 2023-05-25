@@ -11,7 +11,7 @@
       </p>
       <hr>
       <h3>좋아요 누른 게시물</h3>
-      <p v-for="(like_article, idx) in profile?.like_articles" :key="`o-${idx}`"
+      <p v-for="(like_article, idx) in profile?.like_articles.reverse().slice(0, 3)" :key="`o-${idx}`"
         @click="gotoArticleDetail(like_article?.id)"
       >
         {{ like_article?.title }}
