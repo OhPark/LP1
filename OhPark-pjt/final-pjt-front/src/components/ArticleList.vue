@@ -30,6 +30,7 @@ export default {
 
 <style>
 .article-list {
-  text-align: start;
+  text-align: center;
+  
 }
 </style>

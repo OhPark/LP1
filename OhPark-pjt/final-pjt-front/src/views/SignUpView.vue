@@ -1,17 +1,23 @@
 <template>
   <div>
-    <h1>Sign Up Page</h1>
+    <h1>Sign Up</h1><br>
     <form @submit.prevent="signUp">
-      <label for="username">username : </label>
-      <input type="text" id="username" v-model="username"><br>
-
-      <label for="password1"> password : </label>
-      <input type="password" id="password1" v-model="password1"><br>
-
-      <label for="password2"> password confirmation : </label>
-      <input type="password" id="password2" v-model="password2">
-      
-      <input type="submit" value="SignUp">
+      <div class="form-container">
+      <div class="form-floating mb-2">
+      <input type="text" id="username" class="form-control" placeholder="username" v-model="username">
+      <label for="username">username</label>
+      </div>
+      <div class="form-floating">
+      <input type="password" class="form-control" id="password1" placeholder="password" v-model="password1">
+      <label for="password1">password</label>
+      </div>
+      <div class="form-floating">
+      <input type="password" class="form-control" id="password2" placeholder="password confirmation" v-model="password2">
+      <label for="password2">password confirmation</label>
+      </div>
+      </div>
+      <br>
+      <input class="btn btn-outline-primary waves-effect mb-4" type="submit" value="SignUp">
     </form>
   </div>
 </template>
@@ -42,3 +48,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.form-control {
+  width: 300px;
+}
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+</style>
