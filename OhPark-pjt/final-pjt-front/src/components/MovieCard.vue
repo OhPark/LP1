@@ -35,4 +35,7 @@ export default {
     width: 300px;
     margin: 50px;
   }
+  .card-title {
+  word-break: keep-all;
+  }
 </style>

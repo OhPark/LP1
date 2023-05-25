@@ -100,6 +100,14 @@ const routes = [
   }
 ]
 
+// 동적 route 이동할 때 duplicated 에러 회피하기 위한 코드
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => {
+		if (err.name !== 'NavigationDuplicated') throw err;
+	});
+};
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

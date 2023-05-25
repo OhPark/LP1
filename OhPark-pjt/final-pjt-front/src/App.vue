@@ -43,7 +43,8 @@ export default {
     searchMovies() {
       console.log('들어옴?')
       // if(this.$route.path !== '/movies/:keyword') {
-        this.$router.replace({name : 'movieSearch', params: {keyword: this.keyword}})
+        // this.$router.push({name : 'movieSearch', params: {keyword: this.keyword}}).catch(()=>{});
+      this.$router.push(`/movies/${this.keyword}`)
       // } else {
       //   this.$router.go(0)
       // }

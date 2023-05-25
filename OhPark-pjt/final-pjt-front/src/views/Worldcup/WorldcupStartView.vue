@@ -5,15 +5,18 @@
 				시작하기
 			</button>
 		</div>
-		<div v-else class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-			<h3>{{ readyCount }} 강</h3>
-			<br><hr><br>
-			<div class="card-1 col-3">
-				<WorldcupCard :movie="movieLeft" v-on:selectCard="select" />
+		<div v-else>
+			<h3 id="round">{{ readyCount }} 강</h3>
+			<hr><br>
+			<div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 g-4 justify-content-center">
+				<div class="card-1 col-6 mx-auto">
+					<WorldcupCard :movie="movieLeft" v-on:selectCard="select" />
+				</div>
+				<div class="card-2 col-6 mx-auto">
+					<WorldcupCard :movie="movieRight" v-on:selectCard="select" />
+				</div>
 			</div>
-			<div class="card-2 col-8">
-				<WorldcupCard :movie="movieRight" v-on:selectCard="select" />
-			</div>
+
 		</div>
 	</div>
 </template>
@@ -100,6 +103,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#round {
+	margin: 15px;
+}
 
 </style>

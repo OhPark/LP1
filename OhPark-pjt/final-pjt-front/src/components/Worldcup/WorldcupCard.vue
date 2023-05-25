@@ -30,4 +30,8 @@ export default {
 
 <style scoped>
 
+.card-title {
+  word-break: keep-all;
+}
+
 </style>
