@@ -10,27 +10,37 @@
     <p>수정시간: {{ article?.updated_at }}</p>
     <hr>
     <div class="comment-list">
-    <h4>댓글 목록</h4>
     <div v-if="article.comments" >
-      <ArticleCommentList :comments="article?.comments" />
-      <p v-for="comment in article?.comments" :key="comment.id">
-        {{comment?.comment_username}}: {{ comment?.content }}
-        <button @click="deleteComment(comment?.id)">댓글 삭제</button>
-      </p>
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button id="btncom" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            댓글 목록 펼쳐보기
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body"><ArticleCommentList :comments="article?.comments" />
+              <p v-for="comment in article?.comments" :key="comment.id">
+                {{comment?.comment_username}}: {{ comment?.content }}
+                <button class=" btn btn-outline-secondary waves-effect" @click="deleteComment(comment?.id)">삭제</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div v-else>
       <h6>댓글이 없습니다</h6>
     </div>
 
   </div>
-    <hr>
     <CommentCreate :article_id="article?.id" />
     <hr>
     <button class=" btn btn-outline-danger waves-effect mb-4" @click="likeArticle">
       좋아요 ♥ {{ like_count }}
     </button>
-    <button @click="deleteArticle">게시글 삭제</button>
-    <button @click="gotoUpdateArticle">게시글 수정</button>
+    <button class=" btn btn-outline-secondary waves-effect mb-4" @click="deleteArticle">게시글 삭제</button>
+    <button class=" btn btn-outline-primary waves-effect mb-4" @click="gotoUpdateArticle">게시글 수정</button>
   </div>
 </template>
 
@@ -87,5 +97,18 @@ export default {
 </script>
 
 <style>
+#btncom {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px; 
+  margin-bottom: 6px;
 
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  
+}
 </style>
