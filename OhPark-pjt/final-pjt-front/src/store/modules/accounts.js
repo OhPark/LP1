@@ -100,14 +100,9 @@ export default {
         url: `${BASE_URL}/accounts/profile/${username}`,
       })
       .then((res) => {
-<<<<<<< HEAD
         console.log('profile: ', res.data)
         context.commit('SET_PROFILE', res.data)
-=======
-        console.log(res)
-        console.log(username)
-        username = res.data.username
->>>>>>> parent of 95e7e24 (what)
+
       })
       .catch((err) => {
         console.error(err)
