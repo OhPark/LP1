@@ -90,7 +90,6 @@ def comment_create(request, article_pk):
 def comment_delete(request, article_pk, comment_pk):
     article = get_object_or_404(Article, pk=article_pk)
     comment = get_object_or_404(Comment, pk=comment_pk)
-    print('view 들어옴')
     print(request.user, comment.user)
     # if request.user == comment.user:
     comment.delete()

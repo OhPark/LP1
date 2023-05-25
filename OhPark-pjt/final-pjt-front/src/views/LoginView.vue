@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>LogIn Page</h1>
+    <h1>LogIn Page</h1><br>
     <form @submit.prevent="login">
       <div class="form-container">
       <div class="form-floating mb-2">
@@ -9,7 +9,7 @@
       </div>
       <div class="form-floating">
       <input type="password" class="form-control" id="password" placeholder="password" v-model="password"><br>
-      <label for="password"> password</label>
+      <label for="password">password</label>
       </div>
       </div>
       <input class="btn btn-outline-primary waves-effect mb-4" type="submit" value="logIn">
