@@ -24,11 +24,7 @@ export default {
 	},
 	mutations: {
     GET_TRENDS(state, payload) {
-      if (state.trends === payload.data) {
-        return
-      } else {
-        state.trends = payload
-      }
+      state.trends = payload
       console.log(payload)
     },
     GET_MOVIE(state, payload) {
@@ -63,10 +59,11 @@ export default {
         axios
           .request(options)
           .then(function (response) {
+            console.log('response 임', response)
             context.commit('GET_TRENDS', response.data)
           })
           .catch(function (error) {
-            console.log(error)
+            console.error(error)
           })
       }
       console.log('axios 끝난 후입니다.')
