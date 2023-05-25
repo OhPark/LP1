@@ -1,4 +1,4 @@
-// import axios from 'axios'
+import axios from 'axios'
 
 // import router from '@/router'
 
@@ -8,17 +8,20 @@ export default {
 	state: {
 		seletedMovies: [],
 		readyMovies: null,
-
+		final: null
 	},
-	getters : {
+	getters: {
 		seletedMovies(state) {
 			return state.seletedMovies
 		},
 		readyMovies(state) {
 			return state.readyMovies
 		},
-		readCount(state) {
+		readyCount(state) {
 			return state.readyMovies.length
+		},
+		final(state) {
+			return state.final
 		}
 	},
 	mutations: {
@@ -29,19 +32,39 @@ export default {
 
 		FREE_WORLDCUP(state) {
 			state.readyMovies = null;
+		},
+
+		SELECT(state, movie) {
+			state.seletedMovies.push(movie)
+		},
+
+		SET_WORLDCUP(state, payload) {
+			state.readyMovies = payload
+		},
+
+		SET_FINAL(state, movies) {
+			state.final = movies
 		}
 	},
 	actions: {
-		startRound(context) {
-			if (state.readyMovies != null) {
-				context.commit("CHANGE_ROUNDS")
-			} else {
-				axios
-			}
+		setWorldcup(context, version) {
+			console.log('version', version)
+			axios({
+				method: 'GET',
+				url: `${BASE_URL}/movies/worldcup/${version}/`
+			})
+				.then((response) => {
+					context.commit('SET_WORLDCUP', response.data.splice(0, 16))
+			})
 		},
-
-		selectMovie(context, movie_id) {
-
+		setFinal(context, movie_id) {
+			axios({
+				method: 'GET',
+				url: `${BASE_URL}/movies/similar/${movie_id}/`
+			})
+				.then(response => {
+					context.commit('SET_FINAL', response.data)
+			})
 		}
 	},
 }

@@ -8,4 +8,6 @@ urlpatterns = [
     path('<int:movie_pk>/', views.movie_detail),
     path('reviews/<int:review_pk>/', views.review_detail),
     path('<int:movie_pk>/reviews/create/', views.create_review),
+    path('worldcup/<int:version>/', views.worldcup),
+    path('similar/<int:movie_pk>/', views.similar)
 ]

@@ -162,4 +162,39 @@ def review_detail(request, review_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def worldcup(request, version):
+
+    if version == 0:
+        url = base_url + f'trending/movie/week?api_key={api_key}&language=ko'
+    elif version == 1:
+        url = base_url + f'movie/popular?api_key={api_key}&language=ko&page=1'
+    elif version == 2:
+        url = base_url + f'movie/now_playing?api_key={api_key}&language=ko&page=1'
+
+    if request.method == 'GET':
+        response = http_requests.get(url)
+
+        if response.status_code != 200:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
+        moives = response.json().get('results')
+        serializer = MovieCardSerializer(moives, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])    
+def similar(request, movie_pk):
+
+    url = base_url + f'movie/{movie_pk}/similar?api_key={api_key}&language=ko&page=1'
+
+    if request.method == 'GET':
+        response = http_requests.get(url)
+
+        if response.status_code != 200:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        similars = response.json().get('results')
+        serializer = MovieCardSerializer(similars, many=True)
+        return Response(serializer.data)

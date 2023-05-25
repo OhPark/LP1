@@ -31,12 +31,7 @@ export default {
       router.push({name: 'home'})
     },
     LOG_OUT(state) {
-      console.log(state.route.name)
-      if(state.route.name !== 'home') {
-        router.push({name: 'home'})
-      } else {
-        router.push({name: 'LoginView'})
-      }
+      router.push({name: 'LoginView'})
       state.token = null
       state.username = null
       state.profile = null

@@ -11,7 +11,7 @@
               <router-link class="nav-link" :to="{ name: 'CommunityView' }">Community</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'worldcupHome'}">World Cup</router-link>
+              <router-link class="nav-link" :to="{ name: 'worldcupStart'}">World Cup</router-link>
             </li>
           </ul>
           <form class="form-inline" @submit.prevent="searchMovies">  

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store';
 import HomeView from '../views/HomeView.vue'
 import NotFound404 from '../views/NotFound404.vue'
 import CommunityView from '../views/CommunityView.vue'
@@ -11,7 +10,6 @@ import SignUpView from '../views/SignUpView.vue'
 import ArticleUpdateView from '../views/ArticleUpdateView.vue'
 import ReviewCreate from '@/views/ReviewCreate.vue'
 import ReviewUpdate from '@/views/ReviewUpdate'
-import WorldcupHome from '@/views/Worldcup/WorldcupHomeView'
 import WorldcupStart from '@/views/Worldcup/WorldcupStartView'
 import ProfileView from '@/views/ProfileView'
 import SearchMovie from '@/views/SearchMovie'
@@ -81,11 +79,6 @@ const routes = [
     component: SignUpView,
   },
   {
-    path: '/worldcupHome',
-    name: 'worldcupHome',
-    component: WorldcupHome
-  },
-  {
     path: '/worldcupStart',
     name: 'worldcupStart',
     component: WorldcupStart
@@ -113,10 +106,5 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  store.commit('SET_ROUTE', to);
-  console.log("route to: ", to);
-  next();
-})
 
 export default router
