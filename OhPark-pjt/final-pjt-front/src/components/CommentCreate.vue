@@ -21,17 +21,17 @@ export default {
     }
   },
   methods: {
-    createComment() {
+    async createComment() {
       const payload = {
         content: this.content,
         article_id: this.$props.article_id
       }
       console.log(payload)
-      this.$store.dispatch('createComment', payload)
-        .then(() => {
-          console.log('then 들어옴')
-          this.$store.dispatch('getArticleDetail', payload.article_id)
-        })
+      this.$store.dispatch('createComment', payload)   
+      await setTimeout(() => {
+        this.$store.dispatch('getArticleDetail', this.article_id)
+        this.content = null
+        }, 200)
     },
   }
 }

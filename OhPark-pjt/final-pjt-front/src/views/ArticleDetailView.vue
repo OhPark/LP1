@@ -89,13 +89,14 @@ export default {
       console.log(this.article)
       this.$router.push({ name: 'ArticleUpdateView'})
     },
-    deleteComment (comment_id) {
+    async deleteComment (comment_id) {
       const payload = {
         article_id: this.article_id,
         comment_id: comment_id,
       }
       console.log('deleteComment 들어옴',payload)
       this.$store.dispatch('deleteComment', payload)
+      await setTimeout(() => {this.$store.dispatch('getArticleDetail', this.article.id)}, 200) 
     },
     async likeArticle() {
       this.$store.dispatch('likeArticle', this.article.id)
