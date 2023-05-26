@@ -97,6 +97,10 @@ const routes = [
     path: '/movies/:keyword',
     name: 'movieSearch',
     component: SearchMovie
+  },
+  {
+    path: '*',
+    redirect: '/404'
   }
 ]
 
